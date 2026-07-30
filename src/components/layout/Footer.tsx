@@ -46,13 +46,13 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
           {/* Brand Col */}
           <div className="lg:col-span-2 space-y-5">
-            <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-[#8069BF] via-[#937BD2] to-[#C9A74D] p-0.5 shadow-glow-vox">
-                <div className="w-full h-full bg-[#121118] rounded-[10px] flex items-center justify-center">
-                  <span className="font-heading font-extrabold text-xl text-white tracking-tighter group-hover:text-[#8069BF] transition-colors">
-                    VOX
-                  </span>
-                </div>
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="relative w-12 h-12 rounded-xl overflow-hidden shadow-glow-vox group-hover:scale-105 transition-transform flex-shrink-0 bg-[#121118] border border-[#8069BF]/30">
+                <img
+                  src="/images/logo/vox-logo.png"
+                  alt="VOX Digital Agency Logo"
+                  className="w-full h-full object-contain p-1"
+                />
               </div>
               <div className="flex flex-col">
                 <span className="font-heading font-extrabold text-2xl tracking-tight text-white">

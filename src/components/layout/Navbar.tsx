@@ -67,8 +67,12 @@ export default function Navbar() {
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#8069BF] via-[#937BD2] to-[#C9A74D] flex items-center justify-center text-white font-heading font-extrabold text-xl shadow-glow-vox group-hover:scale-105 transition-transform">
-              V
+            <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-glow-vox group-hover:scale-105 transition-transform flex-shrink-0 bg-[#121118] border border-[#8069BF]/30">
+              <img
+                src="/images/logo/vox-logo.png"
+                alt="VOX Digital Agency Logo"
+                className="w-full h-full object-contain p-1"
+              />
             </div>
             <div className="flex flex-col">
               <span className="font-heading font-extrabold text-white text-lg tracking-wider leading-none group-hover:text-[#8069BF] transition-colors">

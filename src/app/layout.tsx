@@ -30,6 +30,11 @@ export const metadata: Metadata = {
   authors: [{ name: 'VOX Digital Engineering Team' }],
   creator: 'VOX Digital Agency',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://voxdigital.io'),
+  icons: {
+    icon: '/images/logo/vox-logo.png',
+    shortcut: '/images/logo/vox-logo.png',
+    apple: '/images/logo/vox-logo.png',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -40,7 +45,7 @@ export const metadata: Metadata = {
       'Modern digital agency crafting fast Next.js applications, GSAP micro-interactions, autonomous AI agents, and SEO growth engines.',
     images: [
       {
-        url: '/og-image.png',
+        url: '/images/logo/vox-banner.png',
         width: 1200,
         height: 630,
         alt: 'VOX Digital Agency Premium Web Engineering',
@@ -51,7 +56,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'VOX Digital Agency | Modern Web & AI Architecture',
     description: 'Modern digital agency for Next.js 15, GSAP motion, AI agents, and SEO growth.',
-    images: ['/og-image.png'],
+    images: ['/images/logo/vox-banner.png'],
     creator: '@voxdigital',
   },
   robots: {
