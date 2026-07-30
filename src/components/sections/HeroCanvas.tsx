@@ -3,25 +3,13 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
-interface WaveLayer {
-  frequency: number;
-  amplitude: number;
-  speed: number;
-  offset: number;
-  phase: number;
-  colorStart: string;
-  colorEnd: string;
-  strokeColor: string;
-  heightOffset: number;
-}
-
-interface Sparkle {
+interface GlobePoint {
   x: number;
   y: number;
-  size: number;
-  speed: number;
-  opacity: number;
-  pulse: number;
+  z: number;
+  baseRadius: number;
+  color: string;
+  glowColor: string;
 }
 
 export default function HeroCanvas() {
@@ -45,203 +33,158 @@ export default function HeroCanvas() {
 
     window.addEventListener('resize', handleResize);
 
-    // Multi-Layered Cyber Aurora Waves (VOX Purple & Gold)
-    const waves: WaveLayer[] = [
-      {
-        frequency: 0.0035,
-        amplitude: 65,
-        speed: 0.015,
-        offset: 0,
-        phase: 0,
-        colorStart: 'rgba(128, 105, 191, 0.18)', // Purple
-        colorEnd: 'rgba(18, 17, 24, 0)',
-        strokeColor: 'rgba(128, 105, 191, 0.45)',
-        heightOffset: 0.48,
-      },
-      {
-        frequency: 0.0028,
-        amplitude: 80,
-        speed: 0.012,
-        offset: Math.PI / 3,
-        phase: 0,
-        colorStart: 'rgba(201, 167, 77, 0.14)', // Gold
-        colorEnd: 'rgba(18, 17, 24, 0)',
-        strokeColor: 'rgba(201, 167, 77, 0.4)',
-        heightOffset: 0.52,
-      },
-      {
-        frequency: 0.0045,
-        amplitude: 50,
-        speed: 0.02,
-        offset: Math.PI / 2,
-        phase: 0,
-        colorStart: 'rgba(147, 123, 210, 0.12)', // Lavender
-        colorEnd: 'rgba(18, 17, 24, 0)',
-        strokeColor: 'rgba(147, 123, 210, 0.35)',
-        heightOffset: 0.55,
-      },
-      {
-        frequency: 0.0022,
-        amplitude: 95,
-        speed: 0.008,
-        offset: Math.PI,
-        phase: 0,
-        colorStart: 'rgba(128, 105, 191, 0.1)', // Deep Purple Base
-        colorEnd: 'rgba(18, 17, 24, 0)',
-        strokeColor: 'rgba(201, 167, 77, 0.25)',
-        heightOffset: 0.42,
-      },
-    ];
+    // 3D Globe Fibonacci Distribution
+    const globeRadius = Math.min(width, height) * 0.38;
+    const pointCount = 280;
+    const points: GlobePoint[] = [];
 
-    // Wave Sparkles
-    const sparkles: Sparkle[] = [];
-    const sparkleCount = 35;
-    for (let i = 0; i < sparkleCount; i++) {
-      sparkles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        size: Math.random() * 2 + 1,
-        speed: Math.random() * 0.4 + 0.2,
-        opacity: Math.random() * 0.7 + 0.3,
-        pulse: Math.random() * Math.PI * 2,
+    const goldColor = { fill: '#C9A74D', glow: 'rgba(201, 167, 77, 0.45)' };
+    const purpleColor = { fill: '#8069BF', glow: 'rgba(128, 105, 191, 0.45)' };
+    const lavenderColor = { fill: '#D8CEF6', glow: 'rgba(216, 206, 246, 0.4)' };
+
+    for (let i = 0; i < pointCount; i++) {
+      const phi = Math.acos(1 - 2 * (i + 0.5) / pointCount);
+      const theta = Math.PI * (1 + Math.sqrt(5)) * i;
+
+      const x = globeRadius * Math.sin(phi) * Math.cos(theta);
+      const y = globeRadius * Math.sin(phi) * Math.sin(theta);
+      const z = globeRadius * Math.cos(phi);
+
+      const colorSet = i % 3 === 0 ? goldColor : i % 3 === 1 ? purpleColor : lavenderColor;
+
+      points.push({
+        x,
+        y,
+        z,
+        baseRadius: Math.random() * 1.5 + 1.2,
+        color: colorSet.fill,
+        glowColor: colorSet.glow,
       });
     }
 
-    // Interactive Mouse Distortion Physics
-    const mouse = {
-      x: -1000,
-      y: -1000,
-      targetX: -1000,
-      targetY: -1000,
-      force: 0,
-    };
+    // 3D Mouse Rotation Inertia
+    let rotX = 0.2;
+    let rotY = 0;
+    let targetRotX = 0.2;
+    let targetRotY = 0;
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
-      mouse.targetX = e.clientX - rect.left;
-      mouse.targetY = e.clientY - rect.top;
-      mouse.force = 1;
-    };
+      const mouseX = e.clientX - rect.left - width / 2;
+      const mouseY = e.clientY - rect.top - height / 2;
 
-    const handleMouseLeave = () => {
-      mouse.targetX = -1000;
-      mouse.targetY = -1000;
-      mouse.force = 0;
+      targetRotY = (mouseX / width) * 0.8;
+      targetRotX = (mouseY / height) * 0.8 + 0.2;
     };
 
     const parentEl = canvas.parentElement;
     parentEl?.addEventListener('mousemove', handleMouseMove);
-    parentEl?.addEventListener('mouseleave', handleMouseLeave);
 
-    // GSAP Ticker Render Loop
-    const renderAuroraWaves = () => {
+    let angleY = 0;
+
+    // 60 FPS 3D Render Loop
+    const renderGlobe = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Smooth mouse coordinates
-      mouse.x += (mouse.targetX - mouse.x) * 0.08;
-      mouse.y += (mouse.targetY - mouse.y) * 0.08;
+      // Smooth rotation interpolation
+      rotX += (targetRotX - rotX) * 0.05;
+      rotY += (targetRotY - rotY) * 0.05;
 
-      // 1. Draw Multi-Layered Cyber Waves
-      for (let w = 0; w < waves.length; w++) {
-        const wave = waves[w];
-        wave.phase += wave.speed;
+      angleY += 0.004;
 
-        const centerY = height * wave.heightOffset;
+      const totalRotY = angleY + rotY;
+      const totalRotX = rotX;
 
-        ctx.beginPath();
-        ctx.moveTo(0, height);
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const fov = 500;
 
-        for (let x = 0; x <= width; x += 4) {
-          // Standard Sine Equation
-          let y = centerY + Math.sin(x * wave.frequency + wave.phase + wave.offset) * wave.amplitude;
+      // Project 3D Points to 2D
+      const projectedPoints: { x: number; y: number; z: number; pt: GlobePoint }[] = [];
 
-          // Interactive Mouse Distortion Ripple
-          const dx = mouse.x - x;
-          const dy = mouse.y - y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const rippleRadius = 220;
+      for (let i = 0; i < points.length; i++) {
+        const pt = points[i];
 
-          if (dist < rippleRadius) {
-            const rippleForce = Math.cos((dist / rippleRadius) * (Math.PI / 2)) * 60;
-            y += rippleForce * (mouse.y > centerY ? -1 : 1);
-          }
+        // Rotate Y
+        const cosY = Math.cos(totalRotY);
+        const sinY = Math.sin(totalRotY);
+        const x1 = pt.x * cosY - pt.z * sinY;
+        const z1 = pt.z * cosY + pt.x * sinY;
 
-          if (x === 0) {
-            ctx.lineTo(x, y);
-          } else {
-            ctx.lineTo(x, y);
-          }
-        }
+        // Rotate X
+        const cosX = Math.cos(totalRotX);
+        const sinX = Math.sin(totalRotX);
+        const y2 = pt.y * cosX - z1 * sinX;
+        const z2 = z1 * cosX + pt.y * sinX;
 
-        ctx.lineTo(width, height);
-        ctx.closePath();
+        // Perspective Projection
+        const scale = fov / (fov + z2 + globeRadius);
+        const projX = centerX + x1 * scale;
+        const projY = centerY + y2 * scale;
 
-        // Gradient Fill
-        const grad = ctx.createLinearGradient(0, centerY - wave.amplitude, 0, height);
-        grad.addColorStop(0, wave.colorStart);
-        grad.addColorStop(1, wave.colorEnd);
-
-        ctx.fillStyle = grad;
-        ctx.fill();
-
-        // Wave Top Glowing Ribbon Line
-        ctx.beginPath();
-        for (let x = 0; x <= width; x += 4) {
-          let y = centerY + Math.sin(x * wave.frequency + wave.phase + wave.offset) * wave.amplitude;
-
-          const dx = mouse.x - x;
-          const dy = mouse.y - y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const rippleRadius = 220;
-
-          if (dist < rippleRadius) {
-            const rippleForce = Math.cos((dist / rippleRadius) * (Math.PI / 2)) * 60;
-            y += rippleForce * (mouse.y > centerY ? -1 : 1);
-          }
-
-          if (x === 0) {
-            ctx.moveTo(x, y);
-          } else {
-            ctx.lineTo(x, y);
-          }
-        }
-
-        ctx.strokeStyle = wave.strokeColor;
-        ctx.lineWidth = w % 2 === 0 ? 1.8 : 1.2;
-        ctx.stroke();
+        projectedPoints.push({ x: projX, y: projY, z: z2, pt });
       }
 
-      // 2. Draw Floating Wave Crest Sparkles
-      for (let i = 0; i < sparkles.length; i++) {
-        const s = sparkles[i];
-        s.pulse += 0.03;
-        s.x += s.speed;
+      // Sort points by Z for depth buffering
+      projectedPoints.sort((a, b) => b.z - a.z);
 
-        if (s.x > width) s.x = 0;
+      // 1. Draw Subtle Connecting 3D Mesh Lines
+      const connectMaxDist = 85;
+      for (let i = 0; i < projectedPoints.length; i++) {
+        const p1 = projectedPoints[i];
+        if (p1.z < -globeRadius * 0.4) continue; // Skip back hemisphere lines
 
-        const currentOpacity = s.opacity + Math.sin(s.pulse) * 0.3;
+        for (let j = i + 1; j < projectedPoints.length; j++) {
+          const p2 = projectedPoints[j];
+          if (p2.z < -globeRadius * 0.4) continue;
 
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < connectMaxDist) {
+            const alpha = (1 - dist / connectMaxDist) * 0.2 * ((p1.z + globeRadius) / (globeRadius * 2));
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(128, 105, 191, ${alpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // 2. Draw 3D Globe Particle Nodes
+      for (let i = 0; i < projectedPoints.length; i++) {
+        const p = projectedPoints[i];
+        const depthAlpha = Math.max(0.1, (p.z + globeRadius * 1.2) / (globeRadius * 2.2));
+        const size = Math.max(0.8, p.pt.baseRadius * depthAlpha * 1.4);
+
+        // Halo Glow
         ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size * 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = i % 2 === 0 ? 'rgba(201, 167, 77, 0.4)' : 'rgba(128, 105, 191, 0.4)';
+        ctx.arc(p.x, p.y, size * 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = p.pt.glowColor;
+        ctx.globalAlpha = depthAlpha * 0.6;
         ctx.fill();
 
+        // Solid Point Node
         ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(0, currentOpacity)})`;
+        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+        ctx.fillStyle = p.pt.color;
+        ctx.globalAlpha = depthAlpha;
         ctx.fill();
       }
+
+      ctx.globalAlpha = 1;
     };
 
-    // GSAP Ticker for smooth 60 FPS animation
-    gsap.ticker.add(renderAuroraWaves);
+    gsap.ticker.add(renderGlobe);
 
     return () => {
-      gsap.ticker.remove(renderAuroraWaves);
+      gsap.ticker.remove(renderGlobe);
       window.removeEventListener('resize', handleResize);
       if (parentEl) {
         parentEl.removeEventListener('mousemove', handleMouseMove);
-        parentEl.removeEventListener('mouseleave', handleMouseLeave);
       }
     };
   }, []);
@@ -249,7 +192,7 @@ export default function HeroCanvas() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none z-0"
+      className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-80"
     />
   );
 }

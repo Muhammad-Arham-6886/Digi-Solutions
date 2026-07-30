@@ -6,6 +6,7 @@ import { gsap } from 'gsap';
 import { ArrowUpRight, Sparkles, Code2, ShieldCheck, Zap, LineChart, Cpu, Terminal, CheckCircle2 } from 'lucide-react';
 import MagneticButton from '@/components/ui/MagneticButton';
 import GlassCard from '@/components/ui/GlassCard';
+import HeroCanvas from './HeroCanvas';
 
 export default function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -59,6 +60,9 @@ export default function HeroSection() {
 
   return (
     <section ref={heroRef} className="relative min-h-[92vh] flex items-center justify-center pt-28 pb-28 overflow-hidden bg-[#121118] text-white">
+      {/* Interactive 3D Digital Globe Animation */}
+      <HeroCanvas />
+
       {/* Sleek Enterprise Ambient Light Orbs */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[850px] bg-gradient-to-tr from-[#8069BF]/15 via-[#C9A74D]/10 to-transparent rounded-full blur-[180px] pointer-events-none animate-pulse-glow" />
       <div className="absolute -bottom-20 -right-20 w-[600px] h-[600px] bg-[#8069BF]/10 rounded-full blur-[160px] pointer-events-none" />
