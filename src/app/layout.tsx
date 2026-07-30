@@ -31,9 +31,9 @@ export const metadata: Metadata = {
   creator: 'VOX Digital Agency',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://voxdigital.io'),
   icons: {
-    icon: '/images/logo/vox-logo.png',
-    shortcut: '/images/logo/vox-logo.png',
-    apple: '/images/logo/vox-logo.png',
+    icon: '/images/logo/vox-favicon.png',
+    shortcut: '/images/logo/vox-favicon.png',
+    apple: '/images/logo/vox-favicon.png',
   },
   openGraph: {
     type: 'website',
