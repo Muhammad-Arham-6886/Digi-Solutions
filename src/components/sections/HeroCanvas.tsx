@@ -3,26 +3,25 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
-interface GlowParticle {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  size: number;
-  opacity: number;
-  color: string;
-  pulsePhase: number;
+interface WaveLayer {
+  frequency: number;
+  amplitude: number;
+  speed: number;
+  offset: number;
+  phase: number;
+  colorStart: string;
+  colorEnd: string;
+  strokeColor: string;
+  heightOffset: number;
 }
 
-interface AmbientOrb {
+interface Sparkle {
   x: number;
   y: number;
-  radius: number;
-  color: string;
-  angleX: number;
-  angleY: number;
-  speedX: number;
-  speedY: number;
+  size: number;
+  speed: number;
+  opacity: number;
+  pulse: number;
 }
 
 export default function HeroCanvas() {
@@ -46,177 +45,203 @@ export default function HeroCanvas() {
 
     window.addEventListener('resize', handleResize);
 
-    // Floating Ambient Glow Orbs
-    const orbs: AmbientOrb[] = [
+    // Multi-Layered Cyber Aurora Waves (VOX Purple & Gold)
+    const waves: WaveLayer[] = [
       {
-        x: width * 0.25,
-        y: height * 0.3,
-        radius: 380,
-        color: 'rgba(128, 105, 191, 0.14)', // Electric Purple
-        angleX: 0,
-        angleY: 0,
-        speedX: 0.008,
-        speedY: 0.006,
+        frequency: 0.0035,
+        amplitude: 65,
+        speed: 0.015,
+        offset: 0,
+        phase: 0,
+        colorStart: 'rgba(128, 105, 191, 0.18)', // Purple
+        colorEnd: 'rgba(18, 17, 24, 0)',
+        strokeColor: 'rgba(128, 105, 191, 0.45)',
+        heightOffset: 0.48,
       },
       {
-        x: width * 0.75,
-        y: height * 0.45,
-        radius: 340,
-        color: 'rgba(201, 167, 77, 0.11)', // Royal Gold
-        angleX: Math.PI / 3,
-        angleY: Math.PI / 4,
-        speedX: 0.007,
-        speedY: 0.009,
+        frequency: 0.0028,
+        amplitude: 80,
+        speed: 0.012,
+        offset: Math.PI / 3,
+        phase: 0,
+        colorStart: 'rgba(201, 167, 77, 0.14)', // Gold
+        colorEnd: 'rgba(18, 17, 24, 0)',
+        strokeColor: 'rgba(201, 167, 77, 0.4)',
+        heightOffset: 0.52,
       },
       {
-        x: width * 0.5,
-        y: height * 0.7,
-        radius: 300,
-        color: 'rgba(147, 123, 210, 0.08)', // Lavender Glow
-        angleX: Math.PI / 2,
-        angleY: Math.PI / 2,
-        speedX: 0.005,
-        speedY: 0.007,
+        frequency: 0.0045,
+        amplitude: 50,
+        speed: 0.02,
+        offset: Math.PI / 2,
+        phase: 0,
+        colorStart: 'rgba(147, 123, 210, 0.12)', // Lavender
+        colorEnd: 'rgba(18, 17, 24, 0)',
+        strokeColor: 'rgba(147, 123, 210, 0.35)',
+        heightOffset: 0.55,
+      },
+      {
+        frequency: 0.0022,
+        amplitude: 95,
+        speed: 0.008,
+        offset: Math.PI,
+        phase: 0,
+        colorStart: 'rgba(128, 105, 191, 0.1)', // Deep Purple Base
+        colorEnd: 'rgba(18, 17, 24, 0)',
+        strokeColor: 'rgba(201, 167, 77, 0.25)',
+        heightOffset: 0.42,
       },
     ];
 
-    // Floating Micro Light Dust
-    const particleCount = Math.min(Math.floor(width / 25), 45);
-    const particles: GlowParticle[] = [];
-
-    const colors = [
-      'rgba(128, 105, 191, ', // Purple
-      'rgba(201, 167, 77, ',  // Gold
-      'rgba(216, 206, 246, ', // Lavender White
-    ];
-
-    for (let i = 0; i < particleCount; i++) {
-      const baseColor = colors[i % colors.length];
-      const alpha = Math.random() * 0.4 + 0.15;
-      particles.push({
+    // Wave Sparkles
+    const sparkles: Sparkle[] = [];
+    const sparkleCount = 35;
+    for (let i = 0; i < sparkleCount; i++) {
+      sparkles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: -Math.random() * 0.4 - 0.1, // Drifting upward
         size: Math.random() * 2 + 1,
-        opacity: alpha,
-        color: baseColor + alpha + ')',
-        pulsePhase: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.4 + 0.2,
+        opacity: Math.random() * 0.7 + 0.3,
+        pulse: Math.random() * Math.PI * 2,
       });
     }
 
-    // Grid Light Beam Sweeps
-    let beamY = 0;
-
-    // Mouse Tracking for Smooth Parallax
+    // Interactive Mouse Distortion Physics
     const mouse = {
-      x: width / 2,
-      y: height / 2,
-      targetX: width / 2,
-      targetY: height / 2,
+      x: -1000,
+      y: -1000,
+      targetX: -1000,
+      targetY: -1000,
+      force: 0,
     };
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
       mouse.targetX = e.clientX - rect.left;
       mouse.targetY = e.clientY - rect.top;
+      mouse.force = 1;
+    };
+
+    const handleMouseLeave = () => {
+      mouse.targetX = -1000;
+      mouse.targetY = -1000;
+      mouse.force = 0;
     };
 
     const parentEl = canvas.parentElement;
     parentEl?.addEventListener('mousemove', handleMouseMove);
+    parentEl?.addEventListener('mouseleave', handleMouseLeave);
 
-    // Premium Web Agency Render Loop
-    const renderAgencyBg = () => {
+    // GSAP Ticker Render Loop
+    const renderAuroraWaves = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Smooth mouse inertia
-      mouse.x += (mouse.targetX - mouse.x) * 0.05;
-      mouse.y += (mouse.targetY - mouse.y) * 0.05;
+      // Smooth mouse coordinates
+      mouse.x += (mouse.targetX - mouse.x) * 0.08;
+      mouse.y += (mouse.targetY - mouse.y) * 0.08;
 
-      const parallaxX = (mouse.x - width / 2) * 0.04;
-      const parallaxY = (mouse.y - height / 2) * 0.04;
+      // 1. Draw Multi-Layered Cyber Waves
+      for (let w = 0; w < waves.length; w++) {
+        const wave = waves[w];
+        wave.phase += wave.speed;
 
-      // 1. Draw Organic Floating Ambient Orbs
-      for (let i = 0; i < orbs.length; i++) {
-        const orb = orbs[i];
-        orb.angleX += orb.speedX;
-        orb.angleY += orb.speedY;
+        const centerY = height * wave.heightOffset;
 
-        const currentX = orb.x + Math.sin(orb.angleX) * 60 + parallaxX * (i + 1) * 0.5;
-        const currentY = orb.y + Math.cos(orb.angleY) * 45 + parallaxY * (i + 1) * 0.5;
+        ctx.beginPath();
+        ctx.moveTo(0, height);
 
-        const grad = ctx.createRadialGradient(
-          currentX,
-          currentY,
-          10,
-          currentX,
-          currentY,
-          orb.radius
-        );
-        grad.addColorStop(0, orb.color);
-        grad.addColorStop(1, 'rgba(18, 17, 24, 0)');
+        for (let x = 0; x <= width; x += 4) {
+          // Standard Sine Equation
+          let y = centerY + Math.sin(x * wave.frequency + wave.phase + wave.offset) * wave.amplitude;
+
+          // Interactive Mouse Distortion Ripple
+          const dx = mouse.x - x;
+          const dy = mouse.y - y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const rippleRadius = 220;
+
+          if (dist < rippleRadius) {
+            const rippleForce = Math.cos((dist / rippleRadius) * (Math.PI / 2)) * 60;
+            y += rippleForce * (mouse.y > centerY ? -1 : 1);
+          }
+
+          if (x === 0) {
+            ctx.lineTo(x, y);
+          } else {
+            ctx.lineTo(x, y);
+          }
+        }
+
+        ctx.lineTo(width, height);
+        ctx.closePath();
+
+        // Gradient Fill
+        const grad = ctx.createLinearGradient(0, centerY - wave.amplitude, 0, height);
+        grad.addColorStop(0, wave.colorStart);
+        grad.addColorStop(1, wave.colorEnd);
 
         ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.arc(currentX, currentY, orb.radius, 0, Math.PI * 2);
         ctx.fill();
+
+        // Wave Top Glowing Ribbon Line
+        ctx.beginPath();
+        for (let x = 0; x <= width; x += 4) {
+          let y = centerY + Math.sin(x * wave.frequency + wave.phase + wave.offset) * wave.amplitude;
+
+          const dx = mouse.x - x;
+          const dy = mouse.y - y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const rippleRadius = 220;
+
+          if (dist < rippleRadius) {
+            const rippleForce = Math.cos((dist / rippleRadius) * (Math.PI / 2)) * 60;
+            y += rippleForce * (mouse.y > centerY ? -1 : 1);
+          }
+
+          if (x === 0) {
+            ctx.moveTo(x, y);
+          } else {
+            ctx.lineTo(x, y);
+          }
+        }
+
+        ctx.strokeStyle = wave.strokeColor;
+        ctx.lineWidth = w % 2 === 0 ? 1.8 : 1.2;
+        ctx.stroke();
       }
 
-      // 2. Draw Subtle Horizontal Grid Laser Beam
-      beamY += 0.8;
-      if (beamY > height) beamY = 0;
+      // 2. Draw Floating Wave Crest Sparkles
+      for (let i = 0; i < sparkles.length; i++) {
+        const s = sparkles[i];
+        s.pulse += 0.03;
+        s.x += s.speed;
 
-      const beamGrad = ctx.createLinearGradient(0, beamY, width, beamY);
-      beamGrad.addColorStop(0, 'rgba(128, 105, 191, 0)');
-      beamGrad.addColorStop(0.3, 'rgba(128, 105, 191, 0.07)');
-      beamGrad.addColorStop(0.5, 'rgba(201, 167, 77, 0.12)');
-      beamGrad.addColorStop(0.7, 'rgba(128, 105, 191, 0.07)');
-      beamGrad.addColorStop(1, 'rgba(128, 105, 191, 0)');
+        if (s.x > width) s.x = 0;
 
-      ctx.beginPath();
-      ctx.moveTo(0, beamY);
-      ctx.lineTo(width, beamY);
-      ctx.strokeStyle = beamGrad;
-      ctx.lineWidth = 1;
-      ctx.stroke();
+        const currentOpacity = s.opacity + Math.sin(s.pulse) * 0.3;
 
-      // 3. Draw Micro Floating Light Particles
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-
-        p.x += p.vx;
-        p.y += p.vy;
-
-        // Wrap around screen boundaries
-        if (p.y < -10) p.y = height + 10;
-        if (p.x < -10) p.x = width + 10;
-        if (p.x > width + 10) p.x = -10;
-
-        p.pulsePhase += 0.02;
-        const currentOpacity = p.opacity + Math.sin(p.pulsePhase) * 0.15;
-
-        // Draw Soft Glow Halo around particle
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
+        ctx.arc(s.x, s.y, s.size * 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = i % 2 === 0 ? 'rgba(201, 167, 77, 0.4)' : 'rgba(128, 105, 191, 0.4)';
         ctx.fill();
 
-        // Draw Core Particle Speck
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(0, currentOpacity)})`;
         ctx.fill();
       }
     };
 
     // GSAP Ticker for smooth 60 FPS animation
-    gsap.ticker.add(renderAgencyBg);
+    gsap.ticker.add(renderAuroraWaves);
 
     return () => {
-      gsap.ticker.remove(renderAgencyBg);
+      gsap.ticker.remove(renderAuroraWaves);
       window.removeEventListener('resize', handleResize);
       if (parentEl) {
         parentEl.removeEventListener('mousemove', handleMouseMove);
+        parentEl.removeEventListener('mouseleave', handleMouseLeave);
       }
     };
   }, []);
