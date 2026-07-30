@@ -65,23 +65,13 @@ export default function Navbar() {
       {/* Main Navbar */}
       <div className={`w-full transition-all duration-300 ${scrolled ? 'bg-[#121118]/95 backdrop-blur-xl shadow-xl py-3 border-b border-[#8069BF]/25' : 'bg-[#121118]/80 backdrop-blur-md py-4 border-b border-[#8069BF]/15'}`}>
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-glow-vox group-hover:scale-105 transition-transform flex-shrink-0 bg-[#121118] border border-[#8069BF]/30">
-              <img
-                src="/images/logo/vox-logo.png"
-                alt="VOX Digital Agency Logo"
-                className="w-full h-full object-contain p-1"
-              />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-heading font-extrabold text-white text-lg tracking-wider leading-none group-hover:text-[#8069BF] transition-colors">
-                VOX <span className="text-[#8069BF]">DIGITAL</span>
-              </span>
-              <span className="text-[9px] font-mono text-[#7C7296] tracking-widest uppercase mt-0.5">
-                AGENCY & LABS
-              </span>
-            </div>
+          {/* Full Brand Logo PNG */}
+          <Link href="/" className="flex items-center group">
+            <img
+              src="/images/logo/vox-banner.png"
+              alt="VOX Digital Agency"
+              className="h-8 sm:h-9 w-auto object-contain group-hover:opacity-90 transition-opacity"
+            />
           </Link>
 
           {/* Desktop Navigation Links */}

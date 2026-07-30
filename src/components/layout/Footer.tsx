@@ -44,24 +44,14 @@ export default function Footer() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
-          {/* Brand Col */}
+          {/* Full Brand Logo PNG */}
           <div className="lg:col-span-2 space-y-5">
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="relative w-12 h-12 rounded-xl overflow-hidden shadow-glow-vox group-hover:scale-105 transition-transform flex-shrink-0 bg-[#121118] border border-[#8069BF]/30">
-                <img
-                  src="/images/logo/vox-logo.png"
-                  alt="VOX Digital Agency Logo"
-                  className="w-full h-full object-contain p-1"
-                />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-heading font-extrabold text-2xl tracking-tight text-white">
-                  VOX <span className="text-gradient-vox">Digital</span>
-                </span>
-                <span className="text-xs tracking-widest text-[#7C7296] font-mono uppercase -mt-1 font-semibold">
-                  Digital Engineering Agency
-                </span>
-              </div>
+            <Link href="/" className="flex items-center group">
+              <img
+                src="/images/logo/vox-banner.png"
+                alt="VOX Digital Agency"
+                className="h-10 sm:h-11 w-auto object-contain group-hover:opacity-90 transition-opacity"
+              />
             </Link>
 
             <p className="text-sm sm:text-base text-[#7C7296] max-w-sm leading-relaxed font-light">
