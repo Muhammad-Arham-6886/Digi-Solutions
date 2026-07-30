@@ -18,7 +18,7 @@ export default function HeroDashboard() {
 
   return (
     <div
-      className="relative w-full max-w-xl mx-auto"
+      className="relative w-full max-w-xl mx-auto px-1 sm:px-0"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -34,27 +34,27 @@ export default function HeroDashboard() {
       {/* Main Dashboard Window Container */}
       <div className="relative rounded-2xl bg-[#121118]/95 border border-[#8069BF]/30 backdrop-blur-xl shadow-2xl overflow-hidden group">
         
-        {/* Window Top Bar Chrome */}
-        <div className="flex items-center justify-between px-4 py-3 bg-[#1A1823] border-b border-[#8069BF]/20">
+        {/* Window Top Bar Chrome - Fully Responsive */}
+        <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 px-3 sm:px-4 py-2.5 sm:py-3 bg-[#1A1823] border-b border-[#8069BF]/20">
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-red-500/80 inline-block shadow-sm" />
-            <span className="w-3 h-3 rounded-full bg-yellow-500/80 inline-block shadow-sm" />
-            <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block shadow-sm" />
+            <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500/80 inline-block shadow-sm" />
+            <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500/80 inline-block shadow-sm" />
+            <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-500/80 inline-block shadow-sm" />
           </div>
 
           {/* Interactive URL Search Bar */}
-          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-[#121118] border border-[#8069BF]/20 text-[11px] font-mono text-slate-300 transition-all duration-500">
-            <Globe className={`w-3.5 h-3.5 transition-colors ${isLifted ? 'text-[#C9A74D] animate-spin-slow' : 'text-slate-500'}`} />
-            <span className="font-semibold">
-              {isLifted ? 'voxdigital.agency/high-performance' : 'legacy-slow-website.com'}
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#121118] border border-[#8069BF]/20 text-[10px] sm:text-[11px] font-mono text-slate-300 transition-all duration-500 max-w-[200px] sm:max-w-none truncate">
+            <Globe className={`w-3 h-3 flex-shrink-0 transition-colors ${isLifted ? 'text-[#C9A74D] animate-spin-slow' : 'text-slate-500'}`} />
+            <span className="font-semibold truncate">
+              {isLifted ? 'voxdigital.agency' : 'slow-legacy.com'}
             </span>
           </div>
 
           {/* Interactive Toggle Control Buttons */}
-          <div className="flex items-center gap-1.5 font-mono text-[10px]">
+          <div className="flex items-center gap-1 font-mono text-[9px] sm:text-[10px]">
             <button
               onClick={() => setIsLifted(false)}
-              className={`px-2.5 py-1 rounded-full transition-all ${
+              className={`px-2 py-1 rounded-full transition-all ${
                 !isLifted
                   ? 'bg-red-500/20 text-red-400 border border-red-500/40 font-bold'
                   : 'text-slate-400 hover:text-white bg-slate-800/40'
@@ -64,20 +64,20 @@ export default function HeroDashboard() {
             </button>
             <button
               onClick={() => setIsLifted(true)}
-              className={`px-2.5 py-1 rounded-full transition-all flex items-center gap-1 ${
+              className={`px-2 py-1 rounded-full transition-all flex items-center gap-1 ${
                 isLifted
                   ? 'bg-[#8069BF]/30 text-[#C9A74D] border border-[#C9A74D]/50 font-bold shadow-glow-gold'
                   : 'text-slate-400 hover:text-white bg-slate-800/40'
               }`}
             >
-              <Sparkles className="w-3 h-3 text-[#C9A74D]" />
+              <Sparkles className="w-2.5 h-2.5 text-[#C9A74D]" />
               VOX Lift
             </button>
           </div>
         </div>
 
         {/* Live Transformation Canvas Area */}
-        <div className="relative p-6 min-h-[340px] flex flex-col justify-between overflow-hidden">
+        <div className="relative p-4 sm:p-6 min-h-[320px] flex flex-col justify-between overflow-hidden">
           
           {/* Animated Background Mesh */}
           <div
@@ -88,72 +88,72 @@ export default function HeroDashboard() {
             }`}
           />
 
-          {/* Status Header Line */}
-          <div className="relative z-10 flex items-center justify-between border-b border-white/10 pb-3 font-mono text-xs">
-            <div className="flex items-center gap-2">
+          {/* Status Header Line - Mobile Wrapped */}
+          <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2.5 font-mono text-[11px] sm:text-xs">
+            <div className="flex items-center gap-1.5 flex-wrap">
               {isLifted ? (
                 <>
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                  <span className="text-emerald-400 font-bold">VOX LIFT ACTIVE</span>
-                  <span className="text-slate-500">•</span>
-                  <span className="text-slate-300">Next.js 15 Engine</span>
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping flex-shrink-0" />
+                  <span className="text-emerald-400 font-bold text-[10px] sm:text-xs">VOX LIFT ACTIVE</span>
+                  <span className="text-slate-500 hidden sm:inline">•</span>
+                  <span className="text-slate-300 text-[10px] sm:text-xs hidden sm:inline">Next.js 15 Engine</span>
                 </>
               ) : (
                 <>
-                  <AlertTriangle className="w-3.5 h-3.5 text-amber-400 animate-bounce" />
-                  <span className="text-amber-400 font-bold">UNCONVERTING DATED SITE</span>
-                  <span className="text-slate-500">•</span>
-                  <span className="text-slate-400">High Friction</span>
+                  <AlertTriangle className="w-3.5 h-3.5 text-amber-400 animate-bounce flex-shrink-0" />
+                  <span className="text-amber-400 font-bold text-[10px] sm:text-xs">DATED SITE</span>
+                  <span className="text-slate-500 hidden sm:inline">•</span>
+                  <span className="text-slate-400 text-[10px] sm:text-xs hidden sm:inline">High Friction</span>
                 </>
               )}
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] text-slate-400">Status:</span>
-              <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${isLifted ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
-                {isLifted ? '100/100 Speed' : '38/100 Slow'}
+            <div className="flex items-center gap-1.5">
+              <span className="text-[9px] sm:text-[10px] text-slate-400">Speed:</span>
+              <span className={`px-2 py-0.5 rounded text-[9px] sm:text-[10px] font-bold ${isLifted ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
+                {isLifted ? '100/100' : '38/100'}
               </span>
             </div>
           </div>
 
           {/* Morphing Interactive Layout Canvas */}
-          <div className="relative z-10 py-4 my-auto space-y-4">
+          <div className="relative z-10 py-3 my-auto space-y-3">
             
             {/* Top Row Blocks */}
-            <div className="grid grid-cols-12 gap-3 items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
               
               {/* Main Headline Preview Block */}
               <div
-                className={`col-span-8 p-4 rounded-xl transition-all duration-700 transform ${
+                className={`sm:col-span-7 p-3.5 rounded-xl transition-all duration-700 transform ${
                   isLifted
                     ? 'translate-x-0 rotate-0 bg-gradient-to-r from-[#8069BF]/25 to-[#1A1823] border border-[#8069BF]/40 shadow-lg scale-100'
-                    : '-translate-x-3 -rotate-2 bg-[#1C1A24]/70 border border-slate-700/50 opacity-60 scale-95'
+                    : '-translate-x-1.5 -rotate-1 bg-[#1C1A24]/70 border border-slate-700/50 opacity-60 scale-95'
                 }`}
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <div className={`h-2.5 rounded-full transition-all duration-700 ${isLifted ? 'w-24 bg-[#C9A74D]' : 'w-16 bg-slate-600'}`} />
-                  <div className={`h-2.5 rounded-full transition-all duration-700 ${isLifted ? 'w-12 bg-[#8069BF]' : 'w-10 bg-slate-700'}`} />
+                  <div className={`h-2.5 rounded-full transition-all duration-700 ${isLifted ? 'w-20 bg-[#C9A74D]' : 'w-14 bg-slate-600'}`} />
+                  <div className={`h-2.5 rounded-full transition-all duration-700 ${isLifted ? 'w-10 bg-[#8069BF]' : 'w-8 bg-slate-700'}`} />
                 </div>
-                <div className={`h-2 rounded-full transition-all duration-700 ${isLifted ? 'w-48 bg-slate-300' : 'w-32 bg-slate-700'}`} />
-                <div className={`h-2 rounded-full mt-1.5 transition-all duration-700 ${isLifted ? 'w-36 bg-slate-400' : 'w-24 bg-slate-800'}`} />
+                <div className={`h-2 rounded-full transition-all duration-700 max-w-full ${isLifted ? 'w-36 bg-slate-300' : 'w-28 bg-slate-700'}`} />
+                <div className={`h-2 rounded-full mt-1.5 transition-all duration-700 max-w-full ${isLifted ? 'w-28 bg-slate-400' : 'w-20 bg-slate-800'}`} />
               </div>
 
               {/* Speed & Metric Gauge Card */}
               <div
-                className={`col-span-4 p-3 rounded-xl transition-all duration-700 transform ${
+                className={`sm:col-span-5 p-3 rounded-xl transition-all duration-700 transform ${
                   isLifted
                     ? 'translate-y-0 rotate-0 bg-[#1A1823]/90 border border-[#C9A74D]/40 text-[#C9A74D] shadow-glow-gold scale-100'
-                    : 'translate-y-2 rotate-3 bg-[#181620]/60 border border-slate-700/40 text-slate-500 opacity-60 scale-95'
+                    : 'translate-y-1 rotate-1 bg-[#181620]/60 border border-slate-700/40 text-slate-500 opacity-60 scale-95'
                 }`}
               >
-                <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400">
+                <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-slate-400">
                   {isLifted ? 'Conversion' : 'Bounce Rate'}
                 </div>
-                <div className="text-xl sm:text-2xl font-bold font-heading mt-1 flex items-baseline gap-1">
+                <div className="text-lg sm:text-2xl font-bold font-heading mt-0.5 flex items-baseline justify-between">
                   <span>{isLifted ? '+184%' : '68%'}</span>
-                  <ArrowUpRight className={`w-4 h-4 transition-transform duration-700 ${isLifted ? 'text-emerald-400 translate-x-0.5 -translate-y-0.5' : 'text-red-400 rotate-90'}`} />
+                  <ArrowUpRight className={`w-3.5 h-3.5 transition-transform duration-700 ${isLifted ? 'text-emerald-400 translate-x-0.5 -translate-y-0.5' : 'text-red-400 rotate-90'}`} />
                 </div>
-                <div className="w-full bg-[#121118] h-1.5 rounded-full mt-2 overflow-hidden">
+                <div className="w-full bg-[#121118] h-1.5 rounded-full mt-1.5 overflow-hidden">
                   <div
                     className={`h-full rounded-full transition-all duration-700 ${
                       isLifted ? 'w-full bg-[#C9A74D]' : 'w-[30%] bg-red-400'
@@ -165,27 +165,27 @@ export default function HeroDashboard() {
             </div>
 
             {/* Bottom Row Interactive Graph & Feature Cards */}
-            <div className="grid grid-cols-12 gap-3 items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
               
               {/* Interactive Graph Box */}
               <div
-                className={`col-span-7 p-3.5 rounded-xl transition-all duration-700 transform ${
+                className={`sm:col-span-7 p-3 rounded-xl transition-all duration-700 transform ${
                   isLifted
                     ? 'translate-y-0 rotate-0 bg-[#1A1823]/90 border border-[#8069BF]/30 scale-100'
-                    : 'translate-y-3 -rotate-1 bg-[#181620]/60 border border-slate-800 opacity-50 scale-95'
+                    : 'translate-y-1 -rotate-1 bg-[#181620]/60 border border-slate-800 opacity-50 scale-95'
                 }`}
               >
-                <div className="flex items-center justify-between mb-2 text-[11px] font-mono">
-                  <span className={isLifted ? 'text-slate-200 font-bold' : 'text-slate-500'}>
+                <div className="flex items-center justify-between mb-1.5 text-[10px] sm:text-[11px] font-mono">
+                  <span className={isLifted ? 'text-slate-200 font-bold truncate' : 'text-slate-500 truncate'}>
                     {isLifted ? 'Revenue Scalability' : 'Unstable Traffic'}
                   </span>
-                  <span className={`text-[10px] ${isLifted ? 'text-emerald-400' : 'text-red-400'}`}>
-                    {isLifted ? '42ms SLA' : '4,800ms Load'}
+                  <span className={`text-[9px] sm:text-[10px] flex-shrink-0 ml-1 ${isLifted ? 'text-emerald-400' : 'text-red-400'}`}>
+                    {isLifted ? '42ms SLA' : '4.8s Load'}
                   </span>
                 </div>
 
                 {/* Animated Chart SVG */}
-                <div className="h-16 w-full relative">
+                <div className="h-14 w-full relative">
                   <svg className="w-full h-full overflow-visible" viewBox="0 0 300 70" preserveAspectRatio="none">
                     <path
                       d={
@@ -205,30 +205,30 @@ export default function HeroDashboard() {
                 </div>
               </div>
 
-              {/* 3 Feature Pills Stack */}
-              <div className="col-span-5 space-y-2">
+              {/* 2 Feature Pills Stack */}
+              <div className="sm:col-span-5 space-y-2">
                 <div
-                  className={`p-2.5 rounded-lg font-mono text-[11px] flex items-center justify-between transition-all duration-700 ${
+                  className={`p-2 rounded-lg font-mono text-[10px] sm:text-[11px] flex items-center justify-between transition-all duration-700 ${
                     isLifted
                       ? 'bg-[#8069BF]/20 border border-[#8069BF]/40 text-white translate-x-0'
-                      : 'bg-[#181620]/50 border border-slate-800 text-slate-500 translate-x-2'
+                      : 'bg-[#181620]/50 border border-slate-800 text-slate-500'
                   }`}
                 >
-                  <span className="flex items-center gap-1.5">
-                    <CheckCircle2 className={`w-3.5 h-3.5 ${isLifted ? 'text-[#C9A74D]' : 'text-slate-600'}`} />
+                  <span className="flex items-center gap-1.5 truncate">
+                    <CheckCircle2 className={`w-3 h-3 flex-shrink-0 ${isLifted ? 'text-[#C9A74D]' : 'text-slate-600'}`} />
                     Next.js App Router
                   </span>
                 </div>
 
                 <div
-                  className={`p-2.5 rounded-lg font-mono text-[11px] flex items-center justify-between transition-all duration-700 ${
+                  className={`p-2 rounded-lg font-mono text-[10px] sm:text-[11px] flex items-center justify-between transition-all duration-700 ${
                     isLifted
                       ? 'bg-[#C9A74D]/15 border border-[#C9A74D]/40 text-white translate-x-0'
-                      : 'bg-[#181620]/50 border border-slate-800 text-slate-500 translate-x-2'
+                      : 'bg-[#181620]/50 border border-slate-800 text-slate-500'
                   }`}
                 >
-                  <span className="flex items-center gap-1.5">
-                    <Zap className={`w-3.5 h-3.5 ${isLifted ? 'text-emerald-400' : 'text-slate-600'}`} />
+                  <span className="flex items-center gap-1.5 truncate">
+                    <Zap className={`w-3 h-3 flex-shrink-0 ${isLifted ? 'text-emerald-400' : 'text-slate-600'}`} />
                     GSAP Scroll Motion
                   </span>
                 </div>
@@ -238,17 +238,17 @@ export default function HeroDashboard() {
 
           </div>
 
-          {/* Interactive Footer Callout */}
-          <div className="relative z-10 flex items-center justify-between pt-3 border-t border-white/10 text-xs font-mono">
-            <span className="text-slate-400">
-              {isLifted ? 'Click toggle above or hover to inspect transformation' : 'Legacy websites lose 68% of visitors in 3 seconds'}
+          {/* Interactive Footer Callout - Mobile Optimized */}
+          <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-1.5 pt-2.5 border-t border-white/10 text-[10px] sm:text-xs font-mono text-center sm:text-left">
+            <span className="text-slate-400 truncate max-w-full">
+              {isLifted ? 'Click toggle above to inspect lift' : 'Legacy sites lose 68% of visitors'}
             </span>
 
             <button
               onClick={() => setIsLifted((prev) => !prev)}
-              className="flex items-center gap-1.5 text-[#C9A74D] hover:underline cursor-pointer"
+              className="flex items-center gap-1 text-[#C9A74D] hover:underline cursor-pointer flex-shrink-0"
             >
-              <RefreshCw className="w-3.5 h-3.5 animate-spin-slow" />
+              <RefreshCw className="w-3 h-3 animate-spin-slow" />
               <span>Toggle Preview</span>
             </button>
           </div>
