@@ -6,6 +6,7 @@ import { gsap } from 'gsap';
 import { ArrowUpRight, Sparkles, Code2, ShieldCheck, Zap, LineChart, Cpu } from 'lucide-react';
 import MagneticButton from '@/components/ui/MagneticButton';
 import GlassCard from '@/components/ui/GlassCard';
+import HeroCanvas from './HeroCanvas';
 
 export default function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -59,6 +60,9 @@ export default function HeroSection() {
 
   return (
     <section ref={heroRef} className="relative min-h-[92vh] flex items-center justify-center pt-24 pb-28 overflow-hidden bg-[#121118] text-white">
+      {/* Animated Canvas Mesh & Constellation Background */}
+      <HeroCanvas />
+
       {/* Ambient background glows */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] bg-[#8069BF]/12 rounded-full blur-[170px] pointer-events-none animate-pulse-glow" />
       <div className="absolute top-1/3 right-10 w-[500px] h-[500px] bg-[#C9A74D]/10 rounded-full blur-[140px] pointer-events-none animate-float" />
