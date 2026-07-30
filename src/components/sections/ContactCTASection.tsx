@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import MagneticButton from '@/components/ui/MagneticButton';
-import { ArrowUpRight, Calendar, MessageSquare, Phone } from 'lucide-react';
+import { ArrowUpRight, Calendar, Mail, MessageSquare } from 'lucide-react';
 
 export default function ContactCTASection() {
   return (
@@ -39,9 +39,9 @@ export default function ContactCTASection() {
         </div>
 
         <div className="pt-8 flex flex-wrap items-center justify-center gap-6 text-xs font-mono text-[#7C7296]">
-          <a href="tel:+61289990199" className="hover:text-[#8069BF] transition-colors flex items-center gap-1.5">
-            <Phone className="w-3.5 h-3.5 text-[#C9A74D]" />
-            <span>DIRECT LINE: +61 (02) 8999 0199</span>
+          <a href="mailto:info@voxdigitalagency.com" className="hover:text-[#8069BF] transition-colors flex items-center gap-1.5">
+            <Mail className="w-3.5 h-3.5 text-[#C9A74D]" />
+            <span>EMAIL: info@voxdigitalagency.com</span>
           </a>
           <span>•</span>
           <span>ESTIMATED AUDIT RESPONSE: &lt; 2 HOURS</span>
