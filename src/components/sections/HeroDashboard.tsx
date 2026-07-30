@@ -1,40 +1,35 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Terminal, Activity, Zap, TrendingUp, ShieldCheck, Cpu, Code2, Globe, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Globe, Zap, ArrowUpRight, CheckCircle2, AlertTriangle, TrendingUp, Sparkles, RefreshCw } from 'lucide-react';
 
 export default function HeroDashboard() {
-  const [activeTab, setActiveTab] = useState<'analytics' | 'code' | 'ai'>('analytics');
-  const [metricValue, setMetricValue] = useState(99.8);
-  const [termLine, setTermLine] = useState(0);
+  const [isLifted, setIsLifted] = useState<boolean>(true);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
 
-  const codeSnippets = [
-    'const app = createNextApp({ router: "app", turbopack: true });',
-    'await gsap.timeline().to(".hero", { duration: 1.2, opacity: 1 });',
-    'const aiAgent = new VoxAutonomousAgent({ model: "gemini-2.5" });',
-    'return <Platform seoScore={100} speed="42ms" status="Optimal" />;',
-  ];
-
-  // Continuous typing effect for the code preview
+  // Auto morph back and forth unless hovered
   useEffect(() => {
+    if (isHovered) return;
     const interval = setInterval(() => {
-      setTermLine((prev) => (prev + 1) % codeSnippets.length);
-    }, 2800);
+      setIsLifted((prev) => !prev);
+    }, 4500);
     return () => clearInterval(interval);
-  }, [codeSnippets.length]);
-
-  // Subtle fluctuation for live metric
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setMetricValue(Number((99.7 + Math.random() * 0.25).toFixed(1)));
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
+  }, [isHovered]);
 
   return (
-    <div className="relative w-full max-w-xl mx-auto">
+    <div
+      className="relative w-full max-w-xl mx-auto"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       {/* Outer Glow Backdrop */}
-      <div className="absolute -inset-1 bg-gradient-to-r from-[#8069BF]/40 via-[#C9A74D]/30 to-[#8069BF]/40 rounded-2xl blur-xl opacity-75 animate-pulse-glow" />
+      <div
+        className={`absolute -inset-1 rounded-2xl blur-xl transition-all duration-700 pointer-events-none ${
+          isLifted
+            ? 'bg-gradient-to-r from-[#8069BF]/50 via-[#C9A74D]/35 to-[#8069BF]/50 opacity-90 animate-pulse-glow'
+            : 'bg-red-500/10 opacity-30'
+        }`}
+      />
 
       {/* Main Dashboard Window Container */}
       <div className="relative rounded-2xl bg-[#121118]/95 border border-[#8069BF]/30 backdrop-blur-xl shadow-2xl overflow-hidden group">
@@ -47,208 +42,219 @@ export default function HeroDashboard() {
             <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block shadow-sm" />
           </div>
 
-          {/* URL Search Pill */}
-          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-[#121118] border border-[#8069BF]/20 text-[11px] font-mono text-slate-300">
-            <Globe className="w-3 h-3 text-[#C9A74D] animate-spin-slow" />
-            <span>voxdigital.agency/live-engine</span>
+          {/* Interactive URL Search Bar */}
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-[#121118] border border-[#8069BF]/20 text-[11px] font-mono text-slate-300 transition-all duration-500">
+            <Globe className={`w-3.5 h-3.5 transition-colors ${isLifted ? 'text-[#C9A74D] animate-spin-slow' : 'text-slate-500'}`} />
+            <span className="font-semibold">
+              {isLifted ? 'voxdigital.agency/high-performance' : 'legacy-slow-website.com'}
+            </span>
           </div>
 
-          {/* Live Status Badge */}
-          <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-mono text-emerald-400 font-bold">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-            <span>LIVE</span>
+          {/* Interactive Toggle Control Buttons */}
+          <div className="flex items-center gap-1.5 font-mono text-[10px]">
+            <button
+              onClick={() => setIsLifted(false)}
+              className={`px-2.5 py-1 rounded-full transition-all ${
+                !isLifted
+                  ? 'bg-red-500/20 text-red-400 border border-red-500/40 font-bold'
+                  : 'text-slate-400 hover:text-white bg-slate-800/40'
+              }`}
+            >
+              Legacy
+            </button>
+            <button
+              onClick={() => setIsLifted(true)}
+              className={`px-2.5 py-1 rounded-full transition-all flex items-center gap-1 ${
+                isLifted
+                  ? 'bg-[#8069BF]/30 text-[#C9A74D] border border-[#C9A74D]/50 font-bold shadow-glow-gold'
+                  : 'text-slate-400 hover:text-white bg-slate-800/40'
+              }`}
+            >
+              <Sparkles className="w-3 h-3 text-[#C9A74D]" />
+              VOX Lift
+            </button>
           </div>
         </div>
 
-        {/* Tab Controls Header */}
-        <div className="flex items-center justify-between px-5 pt-4 pb-2 border-b border-[#8069BF]/15 font-mono text-xs">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setActiveTab('analytics')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors ${
-                activeTab === 'analytics'
-                  ? 'bg-[#8069BF]/25 text-white border border-[#8069BF]/40'
-                  : 'text-[#7C7296] hover:text-white'
-              }`}
-            >
-              <Activity className="w-3.5 h-3.5 text-[#C9A74D]" />
-              <span>Engine Metrics</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('code')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors ${
-                activeTab === 'code'
-                  ? 'bg-[#8069BF]/25 text-white border border-[#8069BF]/40'
-                  : 'text-[#7C7296] hover:text-white'
-              }`}
-            >
-              <Code2 className="w-3.5 h-3.5 text-[#8069BF]" />
-              <span>Next.js 15 Stream</span>
-            </button>
-          </div>
-
-          <div className="hidden sm:flex items-center gap-2 text-[11px] text-[#C9A74D] bg-[#C9A74D]/10 px-2.5 py-1 rounded-md border border-[#C9A74D]/20">
-            <Zap className="w-3 h-3" />
-            <span>42ms SLA</span>
-          </div>
-        </div>
-
-        {/* Dashboard Content Body */}
-        <div className="p-5 space-y-4 min-h-[310px] flex flex-col justify-between">
+        {/* Live Transformation Canvas Area */}
+        <div className="relative p-6 min-h-[340px] flex flex-col justify-between overflow-hidden">
           
-          {activeTab === 'analytics' ? (
-            <>
-              {/* Top Stats Cards Grid */}
-              <div className="grid grid-cols-3 gap-3">
-                <div className="p-3 rounded-xl bg-[#1A1823]/80 border border-[#8069BF]/20">
-                  <div className="text-[10px] font-mono text-[#7C7296] uppercase tracking-wider">PageSpeed</div>
-                  <div className="text-xl sm:text-2xl font-bold font-heading text-emerald-400 mt-1 flex items-baseline gap-1">
-                    <span>100</span>
-                    <span className="text-[10px] text-slate-400 font-normal">/100</span>
-                  </div>
-                  <div className="w-full bg-[#121118] h-1.5 rounded-full mt-2 overflow-hidden">
-                    <div className="bg-emerald-400 h-full w-full rounded-full animate-pulse" />
-                  </div>
-                </div>
+          {/* Animated Background Mesh */}
+          <div
+            className={`absolute inset-0 transition-opacity duration-700 pointer-events-none ${
+              isLifted
+                ? 'bg-radial-glow opacity-60'
+                : 'bg-none opacity-0'
+            }`}
+          />
 
-                <div className="p-3 rounded-xl bg-[#1A1823]/80 border border-[#8069BF]/20">
-                  <div className="text-[10px] font-mono text-[#7C7296] uppercase tracking-wider">Conversion</div>
-                  <div className="text-xl sm:text-2xl font-bold font-heading text-[#C9A74D] mt-1 flex items-baseline gap-1">
-                    <span>+184%</span>
-                  </div>
-                  <div className="w-full bg-[#121118] h-1.5 rounded-full mt-2 overflow-hidden">
-                    <div className="bg-[#C9A74D] h-full w-[85%] rounded-full" />
-                  </div>
-                </div>
+          {/* Status Header Line */}
+          <div className="relative z-10 flex items-center justify-between border-b border-white/10 pb-3 font-mono text-xs">
+            <div className="flex items-center gap-2">
+              {isLifted ? (
+                <>
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                  <span className="text-emerald-400 font-bold">VOX LIFT ACTIVE</span>
+                  <span className="text-slate-500">•</span>
+                  <span className="text-slate-300">Next.js 15 Engine</span>
+                </>
+              ) : (
+                <>
+                  <AlertTriangle className="w-3.5 h-3.5 text-amber-400 animate-bounce" />
+                  <span className="text-amber-400 font-bold">UNCONVERTING DATED SITE</span>
+                  <span className="text-slate-500">•</span>
+                  <span className="text-slate-400">High Friction</span>
+                </>
+              )}
+            </div>
 
-                <div className="p-3 rounded-xl bg-[#1A1823]/80 border border-[#8069BF]/20">
-                  <div className="text-[10px] font-mono text-[#7C7296] uppercase tracking-wider">SEO Rank</div>
-                  <div className="text-xl sm:text-2xl font-bold font-heading text-[#8069BF] mt-1">
-                    #1 Top
-                  </div>
-                  <div className="w-full bg-[#121118] h-1.5 rounded-full mt-2 overflow-hidden">
-                    <div className="bg-[#8069BF] h-full w-[95%] rounded-full" />
-                  </div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] text-slate-400">Status:</span>
+              <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${isLifted ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}`}>
+                {isLifted ? '100/100 Speed' : '38/100 Slow'}
+              </span>
+            </div>
+          </div>
+
+          {/* Morphing Interactive Layout Canvas */}
+          <div className="relative z-10 py-4 my-auto space-y-4">
+            
+            {/* Top Row Blocks */}
+            <div className="grid grid-cols-12 gap-3 items-center">
+              
+              {/* Main Headline Preview Block */}
+              <div
+                className={`col-span-8 p-4 rounded-xl transition-all duration-700 transform ${
+                  isLifted
+                    ? 'translate-x-0 rotate-0 bg-gradient-to-r from-[#8069BF]/25 to-[#1A1823] border border-[#8069BF]/40 shadow-lg scale-100'
+                    : '-translate-x-3 -rotate-2 bg-[#1C1A24]/70 border border-slate-700/50 opacity-60 scale-95'
+                }`}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <div className={`h-2.5 rounded-full transition-all duration-700 ${isLifted ? 'w-24 bg-[#C9A74D]' : 'w-16 bg-slate-600'}`} />
+                  <div className={`h-2.5 rounded-full transition-all duration-700 ${isLifted ? 'w-12 bg-[#8069BF]' : 'w-10 bg-slate-700'}`} />
+                </div>
+                <div className={`h-2 rounded-full transition-all duration-700 ${isLifted ? 'w-48 bg-slate-300' : 'w-32 bg-slate-700'}`} />
+                <div className={`h-2 rounded-full mt-1.5 transition-all duration-700 ${isLifted ? 'w-36 bg-slate-400' : 'w-24 bg-slate-800'}`} />
+              </div>
+
+              {/* Speed & Metric Gauge Card */}
+              <div
+                className={`col-span-4 p-3 rounded-xl transition-all duration-700 transform ${
+                  isLifted
+                    ? 'translate-y-0 rotate-0 bg-[#1A1823]/90 border border-[#C9A74D]/40 text-[#C9A74D] shadow-glow-gold scale-100'
+                    : 'translate-y-2 rotate-3 bg-[#181620]/60 border border-slate-700/40 text-slate-500 opacity-60 scale-95'
+                }`}
+              >
+                <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400">
+                  {isLifted ? 'Conversion' : 'Bounce Rate'}
+                </div>
+                <div className="text-xl sm:text-2xl font-bold font-heading mt-1 flex items-baseline gap-1">
+                  <span>{isLifted ? '+184%' : '68%'}</span>
+                  <ArrowUpRight className={`w-4 h-4 transition-transform duration-700 ${isLifted ? 'text-emerald-400 translate-x-0.5 -translate-y-0.5' : 'text-red-400 rotate-90'}`} />
+                </div>
+                <div className="w-full bg-[#121118] h-1.5 rounded-full mt-2 overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all duration-700 ${
+                      isLifted ? 'w-full bg-[#C9A74D]' : 'w-[30%] bg-red-400'
+                    }`}
+                  />
                 </div>
               </div>
 
-              {/* Continuously Animated SVG Chart */}
-              <div className="relative p-4 rounded-xl bg-[#1A1823]/60 border border-[#8069BF]/20">
-                <div className="flex items-center justify-between mb-3 text-xs">
-                  <span className="font-mono text-slate-300 flex items-center gap-1.5">
-                    <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
-                    Real-time Traffic & Revenue Scalability
+            </div>
+
+            {/* Bottom Row Interactive Graph & Feature Cards */}
+            <div className="grid grid-cols-12 gap-3 items-center">
+              
+              {/* Interactive Graph Box */}
+              <div
+                className={`col-span-7 p-3.5 rounded-xl transition-all duration-700 transform ${
+                  isLifted
+                    ? 'translate-y-0 rotate-0 bg-[#1A1823]/90 border border-[#8069BF]/30 scale-100'
+                    : 'translate-y-3 -rotate-1 bg-[#181620]/60 border border-slate-800 opacity-50 scale-95'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2 text-[11px] font-mono">
+                  <span className={isLifted ? 'text-slate-200 font-bold' : 'text-slate-500'}>
+                    {isLifted ? 'Revenue Scalability' : 'Unstable Traffic'}
                   </span>
-                  <span className="font-mono text-[10px] text-[#C9A74D] font-bold">
-                    {metricValue}% Uptime
+                  <span className={`text-[10px] ${isLifted ? 'text-emerald-400' : 'text-red-400'}`}>
+                    {isLifted ? '42ms SLA' : '4,800ms Load'}
                   </span>
                 </div>
 
-                {/* Animated Wave SVG */}
-                <div className="h-28 w-full relative">
-                  <svg className="w-full h-full overflow-visible" viewBox="0 0 400 100" preserveAspectRatio="none">
-                    <defs>
-                      <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#8069BF" stopOpacity="0.4" />
-                        <stop offset="100%" stopColor="#8069BF" stopOpacity="0.0" />
-                      </linearGradient>
-                      <linearGradient id="strokeGrad" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="0%" stopColor="#8069BF" />
-                        <stop offset="50%" stopColor="#C9A74D" />
-                        <stop offset="100%" stopColor="#34D399" />
-                      </linearGradient>
-                    </defs>
-
-                    {/* Background Fill */}
+                {/* Animated Chart SVG */}
+                <div className="h-16 w-full relative">
+                  <svg className="w-full h-full overflow-visible" viewBox="0 0 300 70" preserveAspectRatio="none">
                     <path
-                      d="M 0,80 Q 70,20 140,60 T 280,30 T 400,10 L 400,100 L 0,100 Z"
-                      fill="url(#chartGrad)"
-                    />
-
-                    {/* Pulsing Animated Line */}
-                    <path
-                      d="M 0,80 Q 70,20 140,60 T 280,30 T 400,10"
+                      d={
+                        isLifted
+                          ? 'M 0,55 Q 50,10 100,45 T 200,15 T 300,5'
+                          : 'M 0,20 Q 50,55 100,25 T 200,60 T 300,55'
+                      }
                       fill="none"
-                      stroke="url(#strokeGrad)"
-                      strokeWidth="3"
-                      className="animate-pulse"
+                      stroke={isLifted ? '#C9A74D' : '#64748B'}
+                      strokeWidth="2.5"
+                      className="transition-all duration-700"
                     />
-
-                    {/* Live Moving Data Pulse Point */}
-                    <circle cx="280" cy="30" r="5" fill="#C9A74D" className="animate-ping" />
-                    <circle cx="280" cy="30" r="4" fill="#C9A74D" />
-                    <circle cx="400" cy="10" r="4" fill="#34D399" />
+                    {isLifted && (
+                      <circle cx="300" cy="5" r="4" fill="#34D399" className="animate-ping" />
+                    )}
                   </svg>
                 </div>
               </div>
-            </>
-          ) : (
-            /* Code Terminal Tab */
-            <div className="p-4 rounded-xl bg-[#0B0A0F] border border-[#8069BF]/25 font-mono text-xs text-slate-300 min-h-[220px] flex flex-col justify-between">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-[#7C7296] border-b border-white/5 pb-2 text-[11px]">
-                  <Terminal className="w-3.5 h-3.5 text-[#8069BF]" />
-                  <span>VOX Enterprise Compiler v15.2</span>
+
+              {/* 3 Feature Pills Stack */}
+              <div className="col-span-5 space-y-2">
+                <div
+                  className={`p-2.5 rounded-lg font-mono text-[11px] flex items-center justify-between transition-all duration-700 ${
+                    isLifted
+                      ? 'bg-[#8069BF]/20 border border-[#8069BF]/40 text-white translate-x-0'
+                      : 'bg-[#181620]/50 border border-slate-800 text-slate-500 translate-x-2'
+                  }`}
+                >
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className={`w-3.5 h-3.5 ${isLifted ? 'text-[#C9A74D]' : 'text-slate-600'}`} />
+                    Next.js App Router
+                  </span>
                 </div>
-                <div className="text-emerald-400 text-[11px]">$ npx vox-build --optimize --ai-agents</div>
-                <div className="text-slate-400 leading-relaxed font-mono">
-                  {codeSnippets.map((snippet, idx) => (
-                    <div
-                      key={idx}
-                      className={`transition-all duration-500 py-0.5 ${
-                        idx === termLine ? 'text-[#C9A74D] font-bold pl-2 border-l-2 border-[#C9A74D]' : 'text-slate-500 opacity-60'
-                      }`}
-                    >
-                      {snippet}
-                    </div>
-                  ))}
+
+                <div
+                  className={`p-2.5 rounded-lg font-mono text-[11px] flex items-center justify-between transition-all duration-700 ${
+                    isLifted
+                      ? 'bg-[#C9A74D]/15 border border-[#C9A74D]/40 text-white translate-x-0'
+                      : 'bg-[#181620]/50 border border-slate-800 text-slate-500 translate-x-2'
+                  }`}
+                >
+                  <span className="flex items-center gap-1.5">
+                    <Zap className={`w-3.5 h-3.5 ${isLifted ? 'text-emerald-400' : 'text-slate-600'}`} />
+                    GSAP Scroll Motion
+                  </span>
                 </div>
               </div>
-              <div className="flex items-center gap-2 text-[11px] text-emerald-400 font-mono pt-2 border-t border-white/5">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>Zero Layout Shift • Hydration Optimized in 0.4s</span>
-              </div>
-            </div>
-          )}
 
-          {/* Bottom Live Bar Indicators */}
-          <div className="flex items-center justify-between text-[11px] font-mono text-[#7C7296] pt-1">
-            <div className="flex items-center gap-2">
-              <Cpu className="w-3.5 h-3.5 text-[#8069BF]" />
-              <span>GSAP ScrollTrigger Enabled</span>
             </div>
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#C9A74D]" />
-              <span>Enterprise Grade Security</span>
-            </div>
+
+          </div>
+
+          {/* Interactive Footer Callout */}
+          <div className="relative z-10 flex items-center justify-between pt-3 border-t border-white/10 text-xs font-mono">
+            <span className="text-slate-400">
+              {isLifted ? 'Click toggle above or hover to inspect transformation' : 'Legacy websites lose 68% of visitors in 3 seconds'}
+            </span>
+
+            <button
+              onClick={() => setIsLifted((prev) => !prev)}
+              className="flex items-center gap-1.5 text-[#C9A74D] hover:underline cursor-pointer"
+            >
+              <RefreshCw className="w-3.5 h-3.5 animate-spin-slow" />
+              <span>Toggle Preview</span>
+            </button>
           </div>
 
         </div>
       </div>
-
-      {/* Floating Animated Glass Stat Pill Badge #1 (Top Right) */}
-      <div className="absolute -top-5 -right-6 z-20 animate-bounce-gentle">
-        <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#121118]/90 border border-[#C9A74D]/40 backdrop-blur-md shadow-xl text-white font-mono text-xs">
-          <Sparkles className="w-4 h-4 text-[#C9A74D] animate-spin-slow" />
-          <div>
-            <div className="font-bold text-[#C9A74D]">+184% Revenue</div>
-            <div className="text-[9px] text-[#7C7296] uppercase">Client Growth</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Floating Animated Glass Stat Pill Badge #2 (Bottom Left) */}
-      <div className="absolute -bottom-6 -left-6 z-20 animate-float">
-        <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-[#121118]/90 border border-[#8069BF]/40 backdrop-blur-md shadow-xl text-white font-mono text-xs">
-          <Zap className="w-4 h-4 text-emerald-400 animate-pulse" />
-          <div>
-            <div className="font-bold text-white">99.8% PageSpeed</div>
-            <div className="text-[9px] text-emerald-400 uppercase">Core Web Vitals</div>
-          </div>
-        </div>
-      </div>
-
     </div>
   );
 }
