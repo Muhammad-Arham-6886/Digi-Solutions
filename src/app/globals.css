@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-inter: 'Inter', sans-serif;
+  --font-space-grotesk: 'Space Grotesk', sans-serif;
+}
+
+body {
+  font-family: var(--font-inter);
+  background-color: #121118;
+  color: #f8fafc;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #121118;
+}
+::-webkit-scrollbar-thumb {
+  background: #282436;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8069BF;
+}
+
+/* Custom Card & Glassmorphism Utilities */
+.glass-panel-vox {
+  background: rgba(26, 24, 35, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(128, 105, 191, 0.2);
+}
+
+.glass-card-vox {
+  background: rgba(26, 24, 35, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(128, 105, 191, 0.2);
+  box-shadow: 0 10px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* Text Gradients */
+.text-gradient-vox {
+  background: linear-gradient(135deg, #ffffff 0%, #d8cef6 50%, #8069bf 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #ffffff 0%, #f3e5ab 50%, #c9a74d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-secondary {
+  background: linear-gradient(135deg, #ffffff 0%, #b8b1ce 50%, #7c7296 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Dot Grid Background Pattern */
+.bg-dot-grid {
+  background-image: radial-gradient(rgba(128, 105, 191, 0.18) 1px, transparent 1px);
+  background-size: 2rem 2rem;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #05060A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1A1E32;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6366F1;
+}
+
+/* Custom Glassmorphism & Agency Helpers */
+.glass-panel {
+  background: rgba(13, 15, 23, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card-vox {
+  background: linear-gradient(135deg, rgba(19, 22, 37, 0.6) 0%, rgba(9, 10, 15, 0.85) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+.glass-card-vox:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 0 40px -5px rgba(99, 102, 241, 0.25);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #FFFFFF 0%, #E2E8F0 50%, #94A3B8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-vox {
+  background: linear-gradient(135deg, #FFFFFF 0%, #818CF8 50%, #6366F1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-indigo {
+  background: linear-gradient(135deg, #A5B4FC 0%, #6366F1 50%, #06B6D4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #67E8F9 0%, #06B6D4 50%, #6366F1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Selection Color */
+::selection {
+  background: rgba(99, 102, 241, 0.4);
+  color: #ffffff;
+}
