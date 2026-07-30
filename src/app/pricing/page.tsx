@@ -16,35 +16,37 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-[#121118] text-white">
       {/* Header Banner */}
-      <div className="py-16 bg-[#1A1823] border-b border-[#8069BF]/20">
+      <div className="py-12 sm:py-16 bg-[#1A1823] border-b border-[#8069BF]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 text-center">
           <Breadcrumbs items={[{ label: 'Pricing Plans' }]} />
-          <h1 className="text-4xl sm:text-6xl font-heading font-extrabold text-white uppercase tracking-tight">
+          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-white uppercase tracking-tight break-words">
             Transparent <span className="text-gradient-vox">Enterprise Pricing</span>
           </h1>
-          <p className="text-[#7C7296] text-sm sm:text-lg max-w-2xl mx-auto leading-relaxed font-light">
+          <p className="text-[#7C7296] text-xs sm:text-lg max-w-2xl mx-auto leading-relaxed font-light px-2">
             Predictable retainer tiers and scoped engagements with zero hidden fees. Save 20% on annual commitments.
           </p>
 
-          {/* Billing Cycle Switcher */}
-          <div className="pt-6 inline-flex items-center gap-3 p-1.5 bg-[#121118] border border-[#8069BF]/30 rounded-2xl">
-            <button
-              onClick={() => setBillingCycle('monthly')}
-              className={`px-5 py-2 rounded-xl text-xs font-mono font-semibold transition-all ${
-                billingCycle === 'monthly' ? 'bg-[#8069BF] text-white shadow-glow-vox' : 'text-[#7C7296] hover:text-white'
-              }`}
-            >
-              Monthly Billing
-            </button>
-            <button
-              onClick={() => setBillingCycle('yearly')}
-              className={`px-5 py-2 rounded-xl text-xs font-mono font-semibold transition-all flex items-center gap-1.5 ${
-                billingCycle === 'yearly' ? 'bg-[#8069BF] text-white shadow-glow-vox' : 'text-[#7C7296] hover:text-white'
-              }`}
-            >
-              <span>Annual Billing</span>
-              <span className="px-2 py-0.5 bg-[#C9A74D] text-[#121118] text-[10px] rounded-full font-bold">Save 20%</span>
-            </button>
+          {/* Billing Cycle Switcher - Fully Mobile Responsive */}
+          <div className="pt-4 sm:pt-6">
+            <div className="inline-flex items-center justify-center gap-1.5 sm:gap-3 p-1.5 bg-[#121118] border border-[#8069BF]/30 rounded-2xl max-w-full">
+              <button
+                onClick={() => setBillingCycle('monthly')}
+                className={`px-3 sm:px-5 py-2 rounded-xl text-[11px] sm:text-xs font-mono font-semibold whitespace-nowrap transition-all ${
+                  billingCycle === 'monthly' ? 'bg-[#8069BF] text-white shadow-glow-vox' : 'text-[#7C7296] hover:text-white'
+                }`}
+              >
+                Monthly Billing
+              </button>
+              <button
+                onClick={() => setBillingCycle('yearly')}
+                className={`px-3 sm:px-5 py-2 rounded-xl text-[11px] sm:text-xs font-mono font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
+                  billingCycle === 'yearly' ? 'bg-[#8069BF] text-white shadow-glow-vox' : 'text-[#7C7296] hover:text-white'
+                }`}
+              >
+                <span>Annual Billing</span>
+                <span className="px-1.5 sm:px-2 py-0.5 bg-[#C9A74D] text-[#121118] text-[9px] sm:text-[10px] rounded-full font-bold whitespace-nowrap">Save 20%</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
