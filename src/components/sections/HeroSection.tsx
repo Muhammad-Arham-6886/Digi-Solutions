@@ -70,37 +70,6 @@ export default function HeroSection() {
       {/* Subtle Architectural Grid Lines Pattern */}
       <div className="absolute inset-0 bg-dot-grid pointer-events-none z-0 opacity-40" />
 
-      {/* Floating Enterprise HUD Card 1 (Left Top) */}
-      <div className="hidden xl:flex absolute top-32 left-8 p-4 rounded-2xl bg-[#1A1823]/80 border border-[#8069BF]/30 backdrop-blur-xl shadow-2xl items-center gap-3.5 animate-float pointer-events-none z-20">
-        <div className="w-10 h-10 rounded-xl bg-[#8069BF]/20 border border-[#8069BF]/30 flex items-center justify-center text-[#8069BF]">
-          <Cpu className="w-5 h-5" />
-        </div>
-        <div className="text-left font-mono">
-          <div className="text-xs text-white font-bold tracking-wide">Autonomous AI Agents</div>
-          <div className="text-[10px] text-[#7C7296] flex items-center gap-1.5 mt-0.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-            99.98% Latency SLA
-          </div>
-        </div>
-      </div>
-
-      {/* Floating Enterprise HUD Card 2 (Right Top) */}
-      <div className="hidden xl:flex absolute top-36 right-8 p-4 rounded-2xl bg-[#1A1823]/80 border border-[#C9A74D]/30 backdrop-blur-xl shadow-2xl items-center gap-3.5 animate-float [animation-delay:1.5s] pointer-events-none z-20">
-        <div className="w-10 h-10 rounded-xl bg-[#C9A74D]/20 border border-[#C9A74D]/30 flex items-center justify-center text-[#C9A74D]">
-          <Zap className="w-5 h-5" />
-        </div>
-        <div className="text-left font-mono">
-          <div className="text-xs text-white font-bold tracking-wide">Lighthouse 100/100</div>
-          <div className="text-[10px] text-[#C9A74D] font-semibold mt-0.5">Ultra Speed Engine</div>
-        </div>
-      </div>
-
-      {/* Floating Enterprise HUD Card 3 (Right Bottom) */}
-      <div className="hidden xl:flex absolute bottom-32 right-12 p-3.5 rounded-2xl bg-[#1A1823]/80 border border-[#8069BF]/30 backdrop-blur-xl shadow-2xl items-center gap-3 animate-float [animation-delay:2.5s] pointer-events-none z-20">
-        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-        <span className="text-xs font-mono text-slate-200 font-semibold tracking-wide">Next.js 15 App Router</span>
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         {/* Top Tagline Badge */}
         <div

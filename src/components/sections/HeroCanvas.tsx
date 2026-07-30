@@ -3,13 +3,25 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
-interface GlobePoint {
+interface StarNode {
   x: number;
   y: number;
-  z: number;
-  baseRadius: number;
+  vx: number;
+  vy: number;
+  size: number;
+  baseSize: number;
   color: string;
   glowColor: string;
+  pulsePhase: number;
+}
+
+interface PlasmaOrb {
+  x: number;
+  y: number;
+  radius: number;
+  color: string;
+  vx: number;
+  vy: number;
 }
 
 export default function HeroCanvas() {
@@ -33,158 +45,218 @@ export default function HeroCanvas() {
 
     window.addEventListener('resize', handleResize);
 
-    // 3D Globe Fibonacci Distribution
-    const globeRadius = Math.min(width, height) * 0.38;
-    const pointCount = 280;
-    const points: GlobePoint[] = [];
+    // 1. Plasma Gradient Light Orbs
+    const plasmaOrbs: PlasmaOrb[] = [
+      {
+        x: width * 0.2,
+        y: height * 0.3,
+        radius: 350,
+        color: 'rgba(128, 105, 191, 0.22)', // Electric Purple
+        vx: 0.4,
+        vy: 0.3,
+      },
+      {
+        x: width * 0.8,
+        y: height * 0.4,
+        radius: 320,
+        color: 'rgba(201, 167, 77, 0.18)', // Royal Gold
+        vx: -0.3,
+        vy: 0.4,
+      },
+      {
+        x: width * 0.5,
+        y: height * 0.7,
+        radius: 280,
+        color: 'rgba(147, 123, 210, 0.15)', // Lavender
+        vx: 0.35,
+        vy: -0.25,
+      },
+    ];
 
-    const goldColor = { fill: '#C9A74D', glow: 'rgba(201, 167, 77, 0.45)' };
-    const purpleColor = { fill: '#8069BF', glow: 'rgba(128, 105, 191, 0.45)' };
-    const lavenderColor = { fill: '#D8CEF6', glow: 'rgba(216, 206, 246, 0.4)' };
+    // 2. Star Particles
+    const starCount = Math.min(Math.floor(width / 18), 65);
+    const stars: StarNode[] = [];
 
-    for (let i = 0; i < pointCount; i++) {
-      const phi = Math.acos(1 - 2 * (i + 0.5) / pointCount);
-      const theta = Math.PI * (1 + Math.sqrt(5)) * i;
+    const starColors = [
+      { fill: '#C9A74D', glow: 'rgba(201, 167, 77, 0.6)' },
+      { fill: '#8069BF', glow: 'rgba(128, 105, 191, 0.6)' },
+      { fill: '#E2D9F7', glow: 'rgba(226, 217, 247, 0.5)' },
+    ];
 
-      const x = globeRadius * Math.sin(phi) * Math.cos(theta);
-      const y = globeRadius * Math.sin(phi) * Math.sin(theta);
-      const z = globeRadius * Math.cos(phi);
-
-      const colorSet = i % 3 === 0 ? goldColor : i % 3 === 1 ? purpleColor : lavenderColor;
-
-      points.push({
-        x,
-        y,
-        z,
-        baseRadius: Math.random() * 1.5 + 1.2,
-        color: colorSet.fill,
-        glowColor: colorSet.glow,
+    for (let i = 0; i < starCount; i++) {
+      const col = starColors[i % starColors.length];
+      const sz = Math.random() * 2 + 1.2;
+      stars.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        size: sz,
+        baseSize: sz,
+        color: col.fill,
+        glowColor: col.glow,
+        pulsePhase: Math.random() * Math.PI * 2,
       });
     }
 
-    // 3D Mouse Rotation Inertia
-    let rotX = 0.2;
-    let rotY = 0;
-    let targetRotX = 0.2;
-    let targetRotY = 0;
+    // 3. Interactive Mouse Spotlight
+    const mouse = {
+      x: -1000,
+      y: -1000,
+      targetX: -1000,
+      targetY: -1000,
+      active: false,
+    };
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left - width / 2;
-      const mouseY = e.clientY - rect.top - height / 2;
+      mouse.targetX = e.clientX - rect.left;
+      mouse.targetY = e.clientY - rect.top;
+      mouse.active = true;
+    };
 
-      targetRotY = (mouseX / width) * 0.8;
-      targetRotX = (mouseY / height) * 0.8 + 0.2;
+    const handleMouseLeave = () => {
+      mouse.targetX = -1000;
+      mouse.targetY = -1000;
+      mouse.active = false;
     };
 
     const parentEl = canvas.parentElement;
     parentEl?.addEventListener('mousemove', handleMouseMove);
+    parentEl?.addEventListener('mouseleave', handleMouseLeave);
 
-    let angleY = 0;
+    let laserY = 0;
 
-    // 60 FPS 3D Render Loop
-    const renderGlobe = () => {
+    // 60 FPS Render Loop
+    const renderBackground = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Smooth rotation interpolation
-      rotX += (targetRotX - rotX) * 0.05;
-      rotY += (targetRotY - rotY) * 0.05;
+      // Mouse inertia
+      mouse.x += (mouse.targetX - mouse.x) * 0.1;
+      mouse.y += (mouse.targetY - mouse.y) * 0.1;
 
-      angleY += 0.004;
+      // A. Draw Drifting Plasma Light Orbs
+      for (let i = 0; i < plasmaOrbs.length; i++) {
+        const orb = plasmaOrbs[i];
+        orb.x += orb.vx;
+        orb.y += orb.vy;
 
-      const totalRotY = angleY + rotY;
-      const totalRotX = rotX;
+        if (orb.x < 100 || orb.x > width - 100) orb.vx *= -1;
+        if (orb.y < 100 || orb.y > height - 100) orb.vy *= -1;
 
-      const centerX = width / 2;
-      const centerY = height / 2;
-      const fov = 500;
+        const grad = ctx.createRadialGradient(orb.x, orb.y, 10, orb.x, orb.y, orb.radius);
+        grad.addColorStop(0, orb.color);
+        grad.addColorStop(1, 'rgba(18, 17, 24, 0)');
 
-      // Project 3D Points to 2D
-      const projectedPoints: { x: number; y: number; z: number; pt: GlobePoint }[] = [];
-
-      for (let i = 0; i < points.length; i++) {
-        const pt = points[i];
-
-        // Rotate Y
-        const cosY = Math.cos(totalRotY);
-        const sinY = Math.sin(totalRotY);
-        const x1 = pt.x * cosY - pt.z * sinY;
-        const z1 = pt.z * cosY + pt.x * sinY;
-
-        // Rotate X
-        const cosX = Math.cos(totalRotX);
-        const sinX = Math.sin(totalRotX);
-        const y2 = pt.y * cosX - z1 * sinX;
-        const z2 = z1 * cosX + pt.y * sinX;
-
-        // Perspective Projection
-        const scale = fov / (fov + z2 + globeRadius);
-        const projX = centerX + x1 * scale;
-        const projY = centerY + y2 * scale;
-
-        projectedPoints.push({ x: projX, y: projY, z: z2, pt });
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(orb.x, orb.y, orb.radius, 0, Math.PI * 2);
+        ctx.fill();
       }
 
-      // Sort points by Z for depth buffering
-      projectedPoints.sort((a, b) => b.z - a.z);
+      // B. Draw Interactive Mouse Glow Spotlight
+      if (mouse.active) {
+        const mouseGrad = ctx.createRadialGradient(mouse.x, mouse.y, 10, mouse.x, mouse.y, 250);
+        mouseGrad.addColorStop(0, 'rgba(201, 167, 77, 0.16)');
+        mouseGrad.addColorStop(0.5, 'rgba(128, 105, 191, 0.08)');
+        mouseGrad.addColorStop(1, 'rgba(18, 17, 24, 0)');
 
-      // 1. Draw Subtle Connecting 3D Mesh Lines
-      const connectMaxDist = 85;
-      for (let i = 0; i < projectedPoints.length; i++) {
-        const p1 = projectedPoints[i];
-        if (p1.z < -globeRadius * 0.4) continue; // Skip back hemisphere lines
+        ctx.fillStyle = mouseGrad;
+        ctx.beginPath();
+        ctx.arc(mouse.x, mouse.y, 250, 0, Math.PI * 2);
+        ctx.fill();
+      }
 
-        for (let j = i + 1; j < projectedPoints.length; j++) {
-          const p2 = projectedPoints[j];
-          if (p2.z < -globeRadius * 0.4) continue;
+      // C. Draw Ambient Horizontal Scanning Laser Line
+      laserY += 0.9;
+      if (laserY > height) laserY = 0;
 
-          const dx = p1.x - p2.x;
-          const dy = p1.y - p2.y;
+      const laserGrad = ctx.createLinearGradient(0, laserY, width, laserY);
+      laserGrad.addColorStop(0, 'rgba(128, 105, 191, 0)');
+      laserGrad.addColorStop(0.2, 'rgba(128, 105, 191, 0.12)');
+      laserGrad.addColorStop(0.5, 'rgba(201, 167, 77, 0.25)');
+      laserGrad.addColorStop(0.8, 'rgba(128, 105, 191, 0.12)');
+      laserGrad.addColorStop(1, 'rgba(128, 105, 191, 0)');
+
+      ctx.beginPath();
+      ctx.moveTo(0, laserY);
+      ctx.lineTo(width, laserY);
+      ctx.strokeStyle = laserGrad;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // D. Draw Floating Star Nodes & Constellation Beams
+      const maxConnectDist = 140;
+
+      for (let i = 0; i < stars.length; i++) {
+        const s1 = stars[i];
+
+        s1.x += s1.vx;
+        s1.y += s1.vy;
+
+        if (s1.x < 0 || s1.x > width) s1.vx *= -1;
+        if (s1.y < 0 || s1.y > height) s1.vy *= -1;
+
+        s1.pulsePhase += 0.03;
+        s1.size = s1.baseSize + Math.sin(s1.pulsePhase) * 0.6;
+
+        // Mouse Magnet Proximity
+        if (mouse.active) {
+          const dx = mouse.x - s1.x;
+          const dy = mouse.y - s1.y;
+          const mdist = Math.sqrt(dx * dx + dy * dy);
+
+          if (mdist < 180) {
+            ctx.beginPath();
+            ctx.moveTo(s1.x, s1.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            const mAlpha = (1 - mdist / 180) * 0.35;
+            ctx.strokeStyle = `rgba(201, 167, 77, ${mAlpha})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+
+        // Draw Star Halo Glow
+        ctx.beginPath();
+        ctx.arc(s1.x, s1.y, s1.size * 3, 0, Math.PI * 2);
+        ctx.fillStyle = s1.glowColor;
+        ctx.fill();
+
+        // Draw Solid Star Node
+        ctx.beginPath();
+        ctx.arc(s1.x, s1.y, s1.size, 0, Math.PI * 2);
+        ctx.fillStyle = s1.color;
+        ctx.fill();
+
+        // Inter-Star Constellation Lines
+        for (let j = i + 1; j < stars.length; j++) {
+          const s2 = stars[j];
+          const dx = s2.x - s1.x;
+          const dy = s2.y - s1.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < connectMaxDist) {
-            const alpha = (1 - dist / connectMaxDist) * 0.2 * ((p1.z + globeRadius) / (globeRadius * 2));
+          if (dist < maxConnectDist) {
+            const alpha = (1 - dist / maxConnectDist) * 0.24;
             ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
+            ctx.moveTo(s1.x, s1.y);
+            ctx.lineTo(s2.x, s2.y);
             ctx.strokeStyle = `rgba(128, 105, 191, ${alpha})`;
-            ctx.lineWidth = 0.8;
+            ctx.lineWidth = 0.9;
             ctx.stroke();
           }
         }
       }
-
-      // 2. Draw 3D Globe Particle Nodes
-      for (let i = 0; i < projectedPoints.length; i++) {
-        const p = projectedPoints[i];
-        const depthAlpha = Math.max(0.1, (p.z + globeRadius * 1.2) / (globeRadius * 2.2));
-        const size = Math.max(0.8, p.pt.baseRadius * depthAlpha * 1.4);
-
-        // Halo Glow
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, size * 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = p.pt.glowColor;
-        ctx.globalAlpha = depthAlpha * 0.6;
-        ctx.fill();
-
-        // Solid Point Node
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
-        ctx.fillStyle = p.pt.color;
-        ctx.globalAlpha = depthAlpha;
-        ctx.fill();
-      }
-
-      ctx.globalAlpha = 1;
     };
 
-    gsap.ticker.add(renderGlobe);
+    gsap.ticker.add(renderBackground);
 
     return () => {
-      gsap.ticker.remove(renderGlobe);
+      gsap.ticker.remove(renderBackground);
       window.removeEventListener('resize', handleResize);
       if (parentEl) {
         parentEl.removeEventListener('mousemove', handleMouseMove);
+        parentEl.removeEventListener('mouseleave', handleMouseLeave);
       }
     };
   }, []);
@@ -192,7 +264,7 @@ export default function HeroCanvas() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-80"
+      className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-100"
     />
   );
 }
