@@ -147,29 +147,29 @@ export default function Navbar() {
 
       {/* Mobile Drawer Menu */}
       {mobileNavOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-full bg-[#090A0F]/98 backdrop-blur-2xl border-b border-slate-800 p-6 shadow-2xl space-y-4">
-          <div className="flex flex-col space-y-3">
+        <div className="lg:hidden absolute inset-x-0 top-full bg-[#121118]/98 backdrop-blur-2xl border-b border-[#8069BF]/30 p-6 shadow-2xl space-y-4 max-h-[calc(100vh-80px)] overflow-y-auto z-50">
+          <div className="flex flex-col space-y-2">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileNavOpen(false)}
                 className={`text-base font-semibold py-2.5 px-4 rounded-xl transition-colors ${
-                  pathname === link.href ? 'bg-indigo-900/40 text-cyan-300 font-bold' : 'text-slate-200 hover:bg-slate-900'
+                  pathname === link.href ? 'bg-[#8069BF]/20 text-[#8069BF] font-bold border border-[#8069BF]/30' : 'text-slate-200 hover:bg-slate-900/60'
                 }`}
               >
                 {link.label}
               </Link>
             ))}
           </div>
-          <div className="pt-4 border-t border-slate-800 flex flex-col gap-3">
+          <div className="pt-4 border-t border-[#8069BF]/20 flex flex-col gap-3">
             <Link href="/book-consultation" onClick={() => setMobileNavOpen(false)}>
-              <MagneticButton variant="glass" className="w-full py-3 text-sm font-bold">
+              <MagneticButton variant="glass" className="w-full py-3 text-sm font-bold border-[#8069BF]/30 text-slate-200">
                 Book Strategy Call
               </MagneticButton>
             </Link>
             <Link href="/contact" onClick={() => setMobileNavOpen(false)}>
-              <MagneticButton variant="primary" className="w-full py-3 text-sm font-bold">
+              <MagneticButton variant="primary" className="w-full py-3 text-sm font-bold bg-[#8069BF] text-white">
                 Start Project Now
               </MagneticButton>
             </Link>
