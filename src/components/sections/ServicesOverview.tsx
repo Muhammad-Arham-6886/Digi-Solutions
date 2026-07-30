@@ -76,12 +76,23 @@ export default function ServicesOverview() {
           </div>
         </div>
 
-        {/* Services Grid (High-Contrast Readability Cards) */}
+        {/* Services Grid (High-Contrast Readability Cards with Images) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-500">
           {displayedServices.map((service) => (
             <Link key={service.id} href={`/services/${service.slug}`}>
-              <GlassCard className="h-full flex flex-col justify-between group cursor-pointer border-[#8069BF]/35 bg-[#1E1B2E] p-7 shadow-xl hover:border-[#8069BF] hover:bg-[#231F36]">
+              <GlassCard className="h-full flex flex-col justify-between group cursor-pointer border-[#8069BF]/35 bg-[#1E1B2E] p-6 shadow-xl hover:border-[#8069BF] hover:bg-[#231F36]">
                 <div className="space-y-4">
+                  {service.image && (
+                    <div className="relative w-full h-44 rounded-xl overflow-hidden border border-[#8069BF]/30 bg-slate-900 shadow-md">
+                      <img
+                        src={service.image}
+                        alt={service.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#1E1B2E] via-transparent to-transparent opacity-80" />
+                    </div>
+                  )}
+
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-mono font-bold text-[#F3EEFF] uppercase px-3 py-1 bg-[#8069BF]/30 border border-[#8069BF]/60 rounded-md">
                       {service.category}

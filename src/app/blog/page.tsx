@@ -108,8 +108,15 @@ export default function BlogPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredPosts.map((post) => (
             <Link key={post.id} href={`/blog/${post.slug}`}>
-              <GlassCard className="h-full flex flex-col justify-between group cursor-pointer border-[#8069BF]/35 bg-[#1E1B2E] p-7 shadow-xl hover:border-[#8069BF] hover:bg-[#231F36] transition-all">
+              <GlassCard className="h-full flex flex-col justify-between group cursor-pointer border-[#8069BF]/35 bg-[#1E1B2E] p-6 shadow-xl hover:border-[#8069BF] hover:bg-[#231F36] transition-all">
                 <div className="space-y-4">
+                  {post.image && (
+                    <div className="relative w-full h-44 rounded-xl overflow-hidden border border-[#8069BF]/30 bg-slate-900 shadow-md">
+                      <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#1E1B2E] via-transparent to-transparent opacity-80" />
+                    </div>
+                  )}
+
                   <div className="flex items-center justify-between text-xs font-mono">
                     <span className="font-bold text-[#D8CEF6] uppercase px-2.5 py-0.5 bg-[#8069BF]/30 border border-[#8069BF]/50 rounded-md">{post.category}</span>
                     <span className="flex items-center gap-1 text-[#7C7296]"><Clock className="w-3 h-3 text-[#C9A74D]" /> {post.readTime}</span>

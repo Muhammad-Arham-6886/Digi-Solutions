@@ -23,7 +23,7 @@ export const PORTFOLIO_DATA: Project[] = [
     client: 'Nexus Global Financial',
     category: 'Web Application',
     summary: 'A high-concurrency real-time asset trading dashboard handling $1.2B in weekly transactional volume.',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+    image: '/images/portfolio/nexus-fintech-dashboard.jpg',
     stats: [
       { label: 'Transaction Speed', value: '45ms' },
       { label: 'Lighthouse Score', value: '98/100' },
@@ -47,7 +47,7 @@ export const PORTFOLIO_DATA: Project[] = [
     client: 'Aura Haute Couture',
     category: 'E-commerce',
     summary: 'An ultra-premium headless Shopify Storefront delivering 3D product previews and instant 1-click global checkout.',
-    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80',
+    image: '/images/portfolio/aura-luxury-storefront.jpg',
     stats: [
       { label: 'Conversion Rate', value: '+3.8%' },
       { label: 'Average Order Value', value: '$1,450' },
@@ -71,7 +71,7 @@ export const PORTFOLIO_DATA: Project[] = [
     client: 'Pulse Logistics & Freight',
     category: 'AI & Automation',
     summary: 'An autonomous multi-lingual AI support pipeline resolving 78% of logistics tracking inquiries without human intervention.',
-    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80',
+    image: '/images/portfolio/pulse-ai-customer-agent.jpg',
     stats: [
       { label: 'Automated Resolution', value: '78%' },
       { label: 'Response Time', value: '< 2s' },
@@ -95,7 +95,7 @@ export const PORTFOLIO_DATA: Project[] = [
     client: 'Verve Technologies',
     category: 'Brand Identity',
     summary: 'A complete visual rebranding, motion design framework, and design token library for a Series B SaaS platform.',
-    image: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&w=1200&q=80',
+    image: '/images/portfolio/verve-saas-rebrand.jpg',
     stats: [
       { label: 'Brand Value Uplift', value: '3x' },
       { label: 'Enterprise Leads', value: '+210%' },

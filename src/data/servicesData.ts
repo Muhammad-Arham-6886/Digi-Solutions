@@ -6,6 +6,7 @@ export interface ServiceDetail {
   shortDesc: string;
   longDesc: string;
   iconName: string;
+  image?: string;
   popular?: boolean;
   features: string[];
   techStack: string[];
@@ -23,6 +24,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     shortDesc: 'Bespoke, high-performance websites engineered for maximum engagement and lightning-fast load times.',
     longDesc: 'We craft high-impact bespoke websites tailored to your brand identity and business objectives. Utilizing modern frontend architectures, responsive design principles, and seamless content workflows, our websites serve as powerful digital assets that build authority and drive predictable conversions.',
     iconName: 'Globe',
+    image: '/images/services/website-development.jpg',
     popular: true,
     features: [
       'Custom Responsive UI/UX Architecture',
@@ -52,6 +54,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     shortDesc: 'Enterprise WordPress and headless CMS solutions built for security, scalability, and ease of content management.',
     longDesc: 'Transform WordPress into an enterprise-grade web engine. We move past bloated off-the-shelf themes to deliver custom Gutenberg block systems, headless REST/GraphQL setups, and hardened security frameworks tailored for growing teams.',
     iconName: 'Code',
+    image: '/images/services/wordpress-development.jpg',
     features: [
       'Custom Gutenberg Block Development',
       'Headless WordPress with Next.js Frontend',
@@ -78,6 +81,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     shortDesc: 'High-converting custom Shopify 2.0 themes, headless storefronts, and tailored e-commerce experiences.',
     longDesc: 'Scale your e-commerce operations with Shopify and Shopify Plus. We design conversion-focused custom themes, build bespoke Liquid & React apps, and optimize your checkout flow to turn visitors into loyal customer accounts.',
     iconName: 'ShoppingBag',
+    image: '/images/services/shopify-development.jpg',
     popular: true,
     features: [
       'Shopify Online Store 2.0 Custom Themes',
@@ -105,6 +109,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     shortDesc: 'Flexible, scalable WooCommerce web stores with customized product builders, subscriptions, and gateways.',
     longDesc: 'Unlock complete ownership of your e-commerce platform. We build robust WooCommerce environments equipped with automated subscriptions, custom pricing tiers, high-performance checkout flows, and custom gateway integrations.',
     iconName: 'ShoppingCart',
+    image: '/images/services/woocommerce-development.jpg',
     features: [
       'Custom WooCommerce Theme Engineering',
       'Subscription & Recurring Billing Systems',
@@ -131,6 +136,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     shortDesc: 'Bespoke web applications, Next.js 15 App Router, React 19 UI, Node.js microservices, and API integrations.',
     longDesc: 'Turn complex requirements into high-performance digital platforms. We engineer full-stack web software, SaaS platforms, custom Next.js 15 App Router frontends, React 19 interactive state engines, Node.js microservices, and secure REST/GraphQL API gateways.',
     iconName: 'Layers',
+    image: '/images/services/custom-web-applications.jpg',
     popular: true,
     features: [
       'Next.js 15 App Router & Server Action Pipelines',
@@ -160,6 +166,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     shortDesc: 'Autonomous AI agents, LLM integrations, retrieval augmented generation (RAG), and process workflows.',
     longDesc: 'Supercharge operational efficiency with artificial intelligence. We engineer custom AI agents, deploy vector search knowledge bases (RAG), and build automated workflows that execute complex multi-step business tasks 24/7.',
     iconName: 'Cpu',
+    image: '/images/services/ai-agents-business-automation.jpg',
     popular: true,
     features: [
       'Custom LLM Integration (OpenAI, Anthropic, Gemini)',
@@ -187,6 +194,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     shortDesc: 'Comprehensive organic search strategy, Technical SEO audits, Local SEO map rankings, and Core Web Vitals speed tuning.',
     longDesc: 'Drive predictable, high-intent organic traffic to your digital platforms. Our full-spectrum SEO optimization framework encompasses Technical SEO schema auditing, Local SEO Google Business Profile dominance, Core Web Vitals speed remediation, and high-authority link building.',
     iconName: 'TrendingUp',
+    image: '/images/services/seo-optimization.jpg',
     popular: true,
     features: [
       'Technical SEO Audits & JSON-LD Schema Architecture',
@@ -215,6 +223,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     shortDesc: 'User-centric product design, interactive Figma prototypes, wireframes, and design system libraries.',
     longDesc: 'Great design is more than aesthetics—it drives user action. We craft pixel-perfect user interfaces and intuitive interaction flows based on deep user research, user journey mapping, and conversion rate optimization (CRO).',
     iconName: 'Figma',
+    image: '/images/services/ui-ux-design.jpg',
     popular: true,
     features: [
       'Comprehensive UI/UX Audits & Heatmap Analysis',
@@ -242,6 +251,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     shortDesc: 'Memorable, timeless visual identity marks and logo assets engineered for digital and physical media.',
     longDesc: 'Your logo is the visual cornerstone of your enterprise. We design versatile visual logos that encapsulate your core brand message, standing out cleanly across favicons, app screens, billboards, and corporate collateral.',
     iconName: 'Sparkles',
+    image: '/images/services/logo-design.jpg',
     features: [
       'Strategic Brand Discovery & Concept Sketches',
       'Vector Mark & Typography Logo Engineering',
@@ -268,6 +278,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     shortDesc: 'Complete corporate visual systems, typography rules, color palettes, tone of voice, and brand guidelines.',
     longDesc: 'Build a cohesive enterprise brand image across every touchpoint. We craft comprehensive brand identity systems—from visual asset guidelines and typography rules to tone-of-voice frameworks and brand collateral.',
     iconName: 'Palette',
+    image: '/images/services/brand-identity.jpg',
     features: [
       'Visual Identity System & Style Guide',
       'Curated Color Systems & HSL Palette Tokens',
@@ -294,6 +305,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     shortDesc: 'Data-driven social media growth, custom content creation, channel strategy, and audience engagement.',
     longDesc: 'Turn social media into a reliable customer acquisition channel. We craft scroll-stopping visual content, manage high-growth social channels (LinkedIn, X, Instagram, YouTube), and execute strategic social marketing campaigns.',
     iconName: 'Share2',
+    image: '/images/services/social-media-marketing.jpg',
     features: [
       'Social Channel Strategy & Content Calendar',
       'Custom Motion & Graphic Post Creation',
@@ -320,6 +332,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     shortDesc: 'Clean, modern marketing websites crafted for SMBs and fast-scaling digital service companies.',
     longDesc: 'Establish a dominant online presence with a tailored business website. Designed specifically for service providers and small-to-midsize businesses, our builds emphasize clear messaging, trust signals, and lead conversion.',
     iconName: 'Briefcase',
+    image: '/images/services/business-websites.jpg',
     features: [
       'Strategic Service Page Layouts',
       'Lead Generation & Contact Form Integration',
@@ -346,6 +359,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     shortDesc: 'Enterprise web portals featuring multi-language capabilities, investor relations, and security compliance.',
     longDesc: 'Designed for global enterprises and large organizations requiring sophisticated brand presence, security compliance, multi-region localization, and integration with enterprise IT ecosystems.',
     iconName: 'Building2',
+    image: '/images/services/corporate-websites.jpg',
     features: [
       'Multi-Language & i18n Internationalization',
       'Enterprise Investor & Press Release Portals',
@@ -372,6 +386,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     shortDesc: 'Full-scale custom digital storefronts engineered for high transaction volume, global payments, and retention.',
     longDesc: 'Transform your e-commerce operations with end-to-end storefront solutions. From product strategy and UI checkout UX to payment gateways, inventory sync, and customer retention tools, we build store systems optimized for maximum GMV.',
     iconName: 'CreditCard',
+    image: '/images/services/e-commerce-solutions.jpg',
     popular: true,
     features: [
       'Custom Multi-Vendor & Storefront Development',
@@ -399,6 +414,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     shortDesc: 'Proactive 24/7 website upkeep, security monitoring, plugin updates, backups, and performance tweaks.',
     longDesc: 'Protect your digital investment. Our ongoing website maintenance packages ensure your web platforms remain secure, up-to-date, fast, and protected against vulnerabilities or unexpected downtime.',
     iconName: 'ShieldCheck',
+    image: '/images/services/website-maintenance.svg',
     features: [
       'Weekly Core, Theme & Plugin Software Updates',
       'Real-Time Malware Scanning & Web Firewall Monitoring',
@@ -425,6 +441,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     shortDesc: 'Cloud server infrastructure setup, Docker containerization, Vercel/AWS deployments, and load balancing.',
     longDesc: 'Ensure enterprise-grade reliability and lightning performance with custom cloud architecture. We deploy and manage dedicated cloud servers, Kubernetes clusters, Docker instances, and edge CDN deployments.',
     iconName: 'HardDrive',
+    image: '/images/services/hosting-server-management.svg',
     features: [
       'AWS / GCP / Vercel Cloud Server Infrastructure Architecture',
       'Docker Containerization & Kubernetes Setup',
@@ -451,6 +468,7 @@ export const SERVICES_DATA: ServiceDetail[] = [
     shortDesc: 'Bi-directional synchronization between web platforms and CRMs (HubSpot, Salesforce, Zoho).',
     longDesc: 'Never lose a qualified lead again. We build seamless real-time data integrations between your website, web apps, and enterprise CRM systems like HubSpot, Salesforce, Zoho, and Pipedrive.',
     iconName: 'Database',
+    image: '/images/services/crm-integrations.svg',
     features: [
       'HubSpot, Salesforce & Zoho API Integrations',
       'Real-Time Lead Scoring & Contact Data Sync',

@@ -63,35 +63,44 @@ export default async function ServiceDetailPage({ params }: Props) {
 
       {/* Hero Service Banner */}
       <div className="py-16 bg-[#1A1823] border-b border-[#8069BF]/20 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 relative z-10">
-          <Breadcrumbs items={[{ label: 'Services', href: '/services' }, { label: service.title }]} />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+          <div className="lg:col-span-2 space-y-4">
+            <Breadcrumbs items={[{ label: 'Services', href: '/services' }, { label: service.title }]} />
 
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1A1823] border border-[#8069BF]/30 text-xs font-mono font-semibold text-[#D8CEF6] shadow-glow-vox">
-            <Sparkles className="w-3.5 h-3.5 text-[#C9A74D]" />
-            <span>{service.category}</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1A1823] border border-[#8069BF]/30 text-xs font-mono font-semibold text-[#D8CEF6] shadow-glow-vox">
+              <Sparkles className="w-3.5 h-3.5 text-[#C9A74D]" />
+              <span>{service.category}</span>
+            </div>
+
+            <h1 className="text-4xl sm:text-6xl font-heading font-extrabold text-white uppercase tracking-tight">
+              {service.title}
+            </h1>
+
+            <p className="text-slate-300 text-base sm:text-xl max-w-3xl leading-relaxed font-light">
+              {service.shortDesc}
+            </p>
+
+            <div className="pt-4 flex flex-wrap items-center gap-4">
+              <Link href="/contact">
+                <MagneticButton variant="primary" size="md">
+                  <span>Request {service.title} Scope</span>
+                  <ArrowRight className="w-4 h-4" />
+                </MagneticButton>
+              </Link>
+              <Link href="/book-consultation">
+                <MagneticButton variant="glass" size="md">
+                  <span>Book 1-on-1 Strategy Call</span>
+                </MagneticButton>
+              </Link>
+            </div>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-heading font-extrabold text-white uppercase tracking-tight">
-            {service.title}
-          </h1>
-
-          <p className="text-slate-300 text-base sm:text-xl max-w-3xl leading-relaxed font-light">
-            {service.shortDesc}
-          </p>
-
-          <div className="pt-4 flex flex-wrap items-center gap-4">
-            <Link href="/contact">
-              <MagneticButton variant="primary" size="md">
-                <span>Request {service.title} Scope</span>
-                <ArrowRight className="w-4 h-4" />
-              </MagneticButton>
-            </Link>
-            <Link href="/book-consultation">
-              <MagneticButton variant="glass" size="md">
-                <span>Book 1-on-1 Strategy Call</span>
-              </MagneticButton>
-            </Link>
-          </div>
+          {service.image && (
+            <div className="relative w-full h-64 lg:h-72 rounded-2xl overflow-hidden border border-[#8069BF]/40 shadow-glow-vox bg-slate-900">
+              <img src={service.image} alt={service.title} className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#1A1823]/60 via-transparent to-transparent" />
+            </div>
+          )}
         </div>
       </div>
 

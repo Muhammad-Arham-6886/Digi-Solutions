@@ -78,16 +78,23 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <GlassCard hoverGlow={false} className="p-8 space-y-6 border-[#8069BF]/30 bg-[#1A1823]/90 shadow-glow-vox">
-            <div className="grid grid-cols-2 gap-6 text-center">
-              {stats.map((s, idx) => (
-                <div key={idx} className="p-5 bg-[#23202E] rounded-xl border border-[#8069BF]/20">
-                  <div className={`text-3xl sm:text-4xl font-heading font-extrabold ${s.color}`}>{s.value}</div>
-                  <div className="text-xs text-[#7C7296] mt-1 font-mono uppercase tracking-wider">{s.label}</div>
-                </div>
-              ))}
+          <div className="space-y-6">
+            <div className="relative w-full h-64 sm:h-80 rounded-2xl overflow-hidden border border-[#8069BF]/40 shadow-glow-vox bg-slate-900">
+              <img src="/images/about/agency-team.jpg" alt="VOX Digital Engineering Team" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#121118] via-transparent to-transparent opacity-60" />
             </div>
-          </GlassCard>
+
+            <GlassCard hoverGlow={false} className="p-8 space-y-6 border-[#8069BF]/30 bg-[#1A1823]/90 shadow-glow-vox">
+              <div className="grid grid-cols-2 gap-6 text-center">
+                {stats.map((s, idx) => (
+                  <div key={idx} className="p-5 bg-[#23202E] rounded-xl border border-[#8069BF]/20">
+                    <div className={`text-3xl sm:text-4xl font-heading font-extrabold ${s.color}`}>{s.value}</div>
+                    <div className="text-xs text-[#7C7296] mt-1 font-mono uppercase tracking-wider">{s.label}</div>
+                  </div>
+                ))}
+              </div>
+            </GlassCard>
+          </div>
         </div>
 
         {/* Core Values / Principles */}

@@ -5,6 +5,7 @@ export interface BlogPost {
   excerpt: string;
   content: string;
   category: 'Engineering' | 'AI & Automation' | 'SEO Strategy' | 'UI/UX Design' | 'Growth';
+  image: string;
   author: {
     name: string;
     role: string;
@@ -37,6 +38,7 @@ export const BLOG_DATA: BlogPost[] = [
       <p>Google’s Core Web Vitals place strict emphasis on Interaction to Next Paint (INP) alongside LCP and CLS. Eliminating heavy main-thread JavaScript execution is no longer optional—it is essential for ranking in top search placements.</p>
     `,
     category: 'Engineering',
+    image: '/images/blog/nextjs-15-app-router-performance-guide.jpg',
     author: {
       name: 'Alexandre Sterling',
       role: 'Head of Web Architecture',
@@ -64,6 +66,7 @@ export const BLOG_DATA: BlogPost[] = [
       </ol>
     `,
     category: 'AI & Automation',
+    image: '/images/blog/building-autonomous-ai-agents-with-rag.jpg',
     author: {
       name: 'Elena Rostova',
       role: 'Principal AI Engineer',
@@ -91,6 +94,7 @@ export const BLOG_DATA: BlogPost[] = [
       </ul>
     `,
     category: 'UI/UX Design',
+    image: '/images/blog/future-of-ui-ux-design-micro-interactions.jpg',
     author: {
       name: 'Julian Vance',
       role: 'Design Director',
