@@ -6,6 +6,8 @@ import { gsap } from 'gsap';
 import { ArrowUpRight, Sparkles, Code2, ShieldCheck, Zap, LineChart, Cpu, Terminal, CheckCircle2 } from 'lucide-react';
 import MagneticButton from '@/components/ui/MagneticButton';
 import GlassCard from '@/components/ui/GlassCard';
+import HeroDashboard from './HeroDashboard';
+import LightDotsCanvas from './LightDotsCanvas';
 
 export default function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -65,6 +67,9 @@ export default function HeroSection() {
 
   return (
     <section ref={heroRef} className="relative min-h-[92vh] flex items-center justify-center pt-28 pb-28 overflow-hidden bg-[#121118] text-white">
+      {/* Floating Ambient Light Dots Canvas */}
+      <LightDotsCanvas />
+
       {/* Sleek Ambient Gradient Orbs */}
       <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#8069BF]/15 rounded-full blur-[170px] pointer-events-none animate-pulse-glow" />
       <div className="absolute bottom-10 right-10 w-[600px] h-[600px] bg-[#C9A74D]/12 rounded-full blur-[160px] pointer-events-none" />
@@ -76,7 +81,7 @@ export default function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
           {/* Left Column: Headlines & CTAs */}
-          <div className="lg:col-span-7 text-center lg:text-left">
+          <div className="lg:col-span-6 text-center lg:text-left">
             {/* Top Tagline Badge */}
             <div
               ref={badgeRef}
@@ -120,53 +125,9 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right Column: 3D Workspace Visual & Interactive Mockup Frame */}
-          <div className="lg:col-span-5 relative flex justify-center">
-            <div className="hero-visual-card relative w-full max-w-lg rounded-2xl p-2 bg-gradient-to-b from-[#8069BF]/40 via-[#1A1823]/80 to-[#C9A74D]/30 border border-[#8069BF]/30 backdrop-blur-xl shadow-glow-vox group overflow-hidden">
-              
-              {/* Window Header */}
-              <div className="flex items-center justify-between px-4 py-3 bg-[#121118]/90 rounded-t-xl border-b border-[#8069BF]/20 font-mono text-xs text-slate-300">
-                <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-red-500/80 inline-block" />
-                  <span className="w-3 h-3 rounded-full bg-yellow-500/80 inline-block" />
-                  <span className="w-3 h-3 rounded-full bg-green-500/80 inline-block" />
-                </div>
-                <span className="text-[11px] text-[#7C7296]">vox-digital-engine.tsx</span>
-                <span className="w-4" />
-              </div>
-
-              {/* High-Res Dark Mode Workspace Visual */}
-              <div className="relative rounded-b-xl overflow-hidden aspect-[4/3] bg-[#090A0F]">
-                <img
-                  src="/images/hero/agency-hero-mockup.jpg"
-                  alt="VOX Digital Engineering Studio"
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                />
-                
-                {/* Dark Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#121118] via-transparent to-transparent opacity-80" />
-
-                {/* Glassmorphic Tech Badge Overlay */}
-                <div className="absolute bottom-4 left-4 right-4 p-3.5 rounded-xl bg-[#121118]/85 border border-[#8069BF]/30 backdrop-blur-md flex items-center justify-between shadow-lg">
-                  <div className="flex items-center gap-3 font-mono">
-                    <div className="w-8 h-8 rounded-lg bg-[#8069BF]/20 border border-[#8069BF]/40 flex items-center justify-center text-[#8069BF]">
-                      <Terminal className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="text-xs text-white font-bold">Engine Operational</div>
-                      <div className="text-[10px] text-emerald-400 flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                        Next.js 15 App Router
-                      </div>
-                    </div>
-                  </div>
-
-                  <span className="px-2.5 py-1 rounded-full bg-[#C9A74D]/20 text-[#C9A74D] border border-[#C9A74D]/40 font-mono text-[10px] font-bold">
-                    100/100
-                  </span>
-                </div>
-              </div>
-            </div>
+          {/* Right Column: Continuously Animated Live Agency Dashboard */}
+          <div className="lg:col-span-6 hero-visual-card">
+            <HeroDashboard />
           </div>
 
         </div>
